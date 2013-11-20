@@ -9,12 +9,13 @@ public class DragShape : MonoBehaviour
 	private Vector3 offset;
 	private Vector3 originalPos;
 	private bool isReady;
-
+	private bool isActivated;
+	
 	void Start()
 	{
 		thisTransform = transform;
 		originalPos = thisTransform.position;
-		Invoke("SetIsReady",2f);
+		Invoke("SetIsReady",3f);
 	}
 
 	void SetIsReady()
@@ -24,19 +25,22 @@ public class DragShape : MonoBehaviour
 
 	void OnMouseDown()
 	{
-		if(isReady)
+		if(!isReady) return;
+		
+		if(!isActivated)
 		{
+			isActivated = true;
 			screenPoint = Camera.main.WorldToScreenPoint(thisTransform.position);
-			offset = thisTransform.position - Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z));
 		}
 	}
 	
 	void OnMouseDrag()
 	{
-		if(isReady)
+		if(!isReady) return;
+		if(isActivated)
 		{
 			Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
-			Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint), offset;
+			Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
 			thisTransform.position = curPosition;
 		}
 	}

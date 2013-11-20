@@ -9,9 +9,9 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 212: {fileID: 21200000}
-  - 114: {fileID: 11400000}
   - 58: {fileID: 5800000}
   - 50: {fileID: 5000000}
+  - 114: {fileID: 11400000}
   m_Layer: 0
   m_Name: shapeCircle
   m_TagString: Untagged
@@ -36,8 +36,8 @@ Rigidbody2D:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Mass: 1
-  m_LinearDrag: 0
+  m_Mass: 1.5
+  m_LinearDrag: .200000003
   m_AngularDrag: .0500000007
   m_GravityScale: 1
   m_FixedAngle: 0
@@ -64,10 +64,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4d6068c670bf24d90917017e2334d19d, type: 3}
+  m_Script: {fileID: 11500000, guid: df3128d70917e44609031cc0c0e6c680, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: {x: 2, y: 0}
+  moveSpeed: {x: 5, y: 0}
+  bounceHeight: {x: 0, y: 200}
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
