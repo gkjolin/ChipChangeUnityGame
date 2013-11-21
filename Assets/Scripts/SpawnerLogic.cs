@@ -3,15 +3,19 @@ using System.Collections;
 
 public class SpawnerLogic : MonoBehaviour {
 
-	public GameObject testSprite;
+	public GameObject shape;
+	
+	private DragShape dragShape;
+	private Transform thisTransform;
+	private Vector3 spawnPoint;
 	private bool isReady;
 	private bool isActivated;
-	Transform thisTransform;
-	Vector3 point;
 	
-	void Start(){
+	void Start()
+	{
 		thisTransform = transform;
-		Invoke("SetIsReady",3f);
+		dragShape = GetComponent<DragShape>();
+		Invoke("SetIsReady", 3f);
 	}
 	
 	void SetIsReady()
@@ -21,21 +25,25 @@ public class SpawnerLogic : MonoBehaviour {
 	
 	void OnMouseUp()
 	{
-		if(isReady && !isActivated)
+		if(isReady && !isActivated && dragShape.isDragging)
 		{
 			isActivated = true;
 			
+			// Use ScreenPointToRay to get world position of mouse, this will be the spawnPoint
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			point = ray.origin + (ray.direction * -Camera.main.gameObject.transform.position.z);
-		    point = new Vector3(point.x,point.y,0f);
-			LeanTween.move( gameObject, point, .7f, new object[]{ "ease",LeanTweenType.easeOutQuad});
+			spawnPoint = ray.origin + (ray.direction * -Camera.main.gameObject.transform.position.z);
+		    spawnPoint = new Vector3(spawnPoint.x,spawnPoint.y,0f);
+			
+			// transition tween moving spawner gameobject to spawn position of shape gameobject 
+			LeanTween.move( gameObject, spawnPoint, .7f, new object[]{ "ease",LeanTweenType.easeInSine});
+			
 			Invoke("SpawnShapeAndDisableThis",.75f);
 		}
 	}
 	
 	void SpawnShapeAndDisableThis()
 	{
-		Instantiate(testSprite, point, transform.rotation);
+		Instantiate(shape, spawnPoint, transform.rotation);
 		this.gameObject.SetActive(false);
 	}
 }

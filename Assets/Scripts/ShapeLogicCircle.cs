@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ShapeLogicCircle : MonoBehaviour {
+public class ShapeLogicCircle :  MonoBehaviour {
 	
 	
 	public Vector2 moveSpeed = new Vector2(5f,0f);
@@ -25,11 +25,12 @@ public class ShapeLogicCircle : MonoBehaviour {
 	void FixedUpdate () {
 		if(isReady)
 		{
+			print(rb2D.velocity);
 			// Change the direction of moveSpeed.x if gameObject 
 			// velocity.x is moving the other direction
-			if (moveSpeed.x > 0 && rb2D.velocity.x < -5f)
+			if (moveSpeed.x > 0 && rb2D.velocity.x < -3f)
 				moveSpeed = new Vector2 (-moveSpeed.x,moveSpeed.y);
-			else if (moveSpeed.x < 0 && rb2D.velocity.x > 5f)
+			else if (moveSpeed.x < 0 && rb2D.velocity.x > 3f)
 				moveSpeed = new Vector2 (-moveSpeed.x,moveSpeed.y);
 			
 			rb2D.AddForce(moveSpeed);

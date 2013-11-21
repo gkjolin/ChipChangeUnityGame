@@ -10,6 +10,7 @@ public class DragShape : MonoBehaviour
 	private Vector3 originalPos;
 	private bool isReady;
 	private bool isActivated;
+	public bool isDragging; 
 	
 	void Start()
 	{
@@ -39,6 +40,7 @@ public class DragShape : MonoBehaviour
 		if(!isReady) return;
 		if(isActivated)
 		{
+			isDragging = true;
 			Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
 			thisTransform.position = curPosition;
