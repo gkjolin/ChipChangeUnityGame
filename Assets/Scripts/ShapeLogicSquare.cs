@@ -5,7 +5,7 @@ public class ShapeLogicSquare : MonoBehaviour {
 	
 	public Vector2 moveSpeed = new Vector2(50f,0f);
 	public Vector2 flipYForce = new Vector2(0f,50f);
-	public float flipSpeed = 50f;
+	public float flipSpeed = 60f;
 	public LayerMask groundAndObstacleLayerMask;
 	
 	private Rigidbody2D rb2D;
@@ -40,10 +40,26 @@ public class ShapeLogicSquare : MonoBehaviour {
 			isFlippedRight = Physics2D.Linecast(transform.position, sideCheckRight.position, groundAndObstacleLayerMask);  
 			isUpsideDown = Physics2D.Linecast(transform.position, topCheck.position, groundAndObstacleLayerMask);  
 			
-			if (isGrounded) rb2D.AddForce(moveSpeed);
-			else if (isFlippedLeft && IsMovingSlowly())  rb2D.AddTorque(-flipSpeed);
-			else if (isFlippedRight && IsMovingSlowly()) rb2D.AddTorque(flipSpeed);
-			else if (isUpsideDown && IsMovingSlowly()) rb2D.AddTorque(-flipSpeed*2);
+			bool isMovingSlowly = IsMovingSlowly ();
+			if (isGrounded)
+			{
+				rb2D.AddForce(moveSpeed);
+			}
+			else if (isFlippedLeft && isMovingSlowly)
+			{
+				rb2D.AddForce(flipYForce);
+				rb2D.AddTorque(-flipSpeed);
+			}
+			else if (isFlippedRight && isMovingSlowly)
+			{
+				rb2D.AddForce(flipYForce);
+				rb2D.AddTorque(flipSpeed);
+			}
+			else if (isUpsideDown && isMovingSlowly)
+			{
+				rb2D.AddForce(flipYForce);
+				rb2D.AddTorque(-flipSpeed);
+			}
 			
 			// Have to help flip over by adding some y force
 			//if(isFlippedLeft) rb2D.AddForce(flipYForce);

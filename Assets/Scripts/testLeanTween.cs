@@ -13,7 +13,7 @@ public class testLeanTween : MonoBehaviour {
 	
 	// Update is called once per frame
 	void MoveTween () {
-		LeanTween.move( gameObject, moveTweenVector3, 2.0f, new object[]{ "ease",LeanTweenType.easeOutElastic,"repeat",7});
+		LeanTween.move( gameObject, moveTweenVector3, 2.0f, new object[]{ "ease",LeanTweenType.easeOutElastic,"repeat",-1});
 		//LeanTween.move(gameObject,moveTweenVector3,1f { "onComplete",MoveTween});
 	}
 }

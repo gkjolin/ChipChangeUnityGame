@@ -7,4 +7,4 @@ PhysicsMaterial2D:
   m_PrefabInternal: {fileID: 0}
   m_Name: Physics2D ShapeBlock
   friction: .5
-  bounciness: .200000003
+  bounciness: .300000012
