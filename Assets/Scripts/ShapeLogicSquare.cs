@@ -16,9 +16,6 @@ public class ShapeLogicSquare : MonoBehaviour {
 	
 	private bool isReady;
 	private bool isGrounded;
-	private bool isFlippedLeft;
-	private bool isFlippedRight;
-	private bool isUpsideDown;
 	
 	void Start()
 	{
@@ -31,54 +28,74 @@ public class ShapeLogicSquare : MonoBehaviour {
 		Invoke("SetIsReady",1f);
 	}
 	
-	void FixedUpdate () 
-	{
-		if(isReady)
-		{
-			isGrounded = Physics2D.Linecast(transform.position, groundCheck.position, groundAndObstacleLayerMask);
-			isFlippedLeft = Physics2D.Linecast(transform.position, sideCheckLeft.position, groundAndObstacleLayerMask);  
-			isFlippedRight = Physics2D.Linecast(transform.position, sideCheckRight.position, groundAndObstacleLayerMask);  
-			isUpsideDown = Physics2D.Linecast(transform.position, topCheck.position, groundAndObstacleLayerMask);  
-			
-			bool isMovingSlowly = IsMovingSlowly ();
-			if (isGrounded)
-			{
-				rb2D.AddForce(moveSpeed);
-			}
-			else if (isFlippedLeft && isMovingSlowly)
-			{
-				rb2D.AddForce(flipYForce);
-				rb2D.AddTorque(-flipSpeed);
-			}
-			else if (isFlippedRight && isMovingSlowly)
-			{
-				rb2D.AddForce(flipYForce);
-				rb2D.AddTorque(flipSpeed);
-			}
-			else if (isUpsideDown && isMovingSlowly)
-			{
-				rb2D.AddForce(flipYForce);
-				rb2D.AddTorque(-flipSpeed);
-			}
-			
-			// Have to help flip over by adding some y force
-			//if(isFlippedLeft) rb2D.AddForce(flipYForce);
-			
-			isGrounded = false;
-			isFlippedLeft = false;
-			isFlippedRight = false;
-			isUpsideDown = false;
-		}
-	}
-	
 	void SetIsReady()
 	{
 		isReady = true;
 	}
 	
+	void FixedUpdate () 
+	{
+		if(isReady)
+		{
+			MoveAndCheckIfFlipped();
+			
+			
+		}
+	}
+	
+	void MoveAndCheckIfFlipped()
+	{
+		isGrounded = false;
+		bool isFlippedLeft = false;
+		bool isFlippedRight = false;
+		bool isUpsideDown = false;
+		
+		// Use a linecast to see if Ground Layer is directly below
+		// groundCheck, sideCheck, etc are child gameobjects of this gameobject
+		isGrounded = Physics2D.Linecast(transform.position, groundCheck.position, groundAndObstacleLayerMask);
+			
+		// If grounded, move forward
+		if (isGrounded)
+		{
+			rb2D.AddForce(moveSpeed);
+		}
+		// Check if square is stopped moving and flipped over, if so attempt to right itself.
+		else if (IsMovingSlowly ())
+		{
+		
+			isFlippedLeft = Physics2D.Linecast(transform.position, sideCheckLeft.position, groundAndObstacleLayerMask);
+			if (isFlippedLeft)
+			{
+				rb2D.AddForce(flipYForce);
+				rb2D.AddTorque(-flipSpeed);
+			}
+			else 
+			{
+				isFlippedRight = Physics2D.Linecast(transform.position, sideCheckRight.position, groundAndObstacleLayerMask);  
+				if (isFlippedRight)
+				{
+					rb2D.AddForce(flipYForce);
+					rb2D.AddTorque(flipSpeed);
+				}
+				else 
+				{
+		  			isUpsideDown = Physics2D.Linecast(transform.position, topCheck.position, groundAndObstacleLayerMask);  
+					if (isUpsideDown)
+					{
+						rb2D.AddForce(flipYForce);
+						rb2D.AddTorque(-flipSpeed);
+					}
+				}
+			}
+		}	
+	}
+	
 	bool IsMovingSlowly()
 	{
-		if (rb2D.velocity.x < 1 && rb2D.velocity.y < 1) return true;
+		// Checks if velocity and angularVelocity are low
+		if (rb2D.velocity.x < 1f && rb2D.velocity.y < 1f
+			&& rb2D.angularVelocity < 5f) 
+				return true;
 		else return false;
 	}
 	

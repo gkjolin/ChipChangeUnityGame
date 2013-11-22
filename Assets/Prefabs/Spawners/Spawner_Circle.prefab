@@ -14,7 +14,7 @@ GameObject:
   - 50: {fileID: 5000000}
   - 114: {fileID: 11400000}
   m_Layer: 8
-  m_Name: SpawnerCircle
+  m_Name: Spawner_Circle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

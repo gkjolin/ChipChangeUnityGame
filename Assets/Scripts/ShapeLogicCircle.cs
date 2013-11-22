@@ -25,7 +25,6 @@ public class ShapeLogicCircle :  MonoBehaviour {
 	void FixedUpdate () {
 		if(isReady)
 		{
-			print(rb2D.velocity);
 			// Change the direction of moveSpeed.x if gameObject 
 			// velocity.x is moving the other direction
 			if (moveSpeed.x > 0 && rb2D.velocity.x < -3f)
@@ -60,7 +59,6 @@ public class ShapeLogicCircle :  MonoBehaviour {
 			{
 				hasBounced = true;
 				rb2D.AddForceAtPosition(bounceHeight,new Vector2(thisTransform.position.x, thisTransform.position.y-1));
-				print("groound");
 				Invoke("ResetHasBounced",1f);
 			}
 		}
