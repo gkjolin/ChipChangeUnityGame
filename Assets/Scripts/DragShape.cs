@@ -10,7 +10,10 @@ public class DragShape : MonoBehaviour
 	private Vector3 originalPos;
 	private bool isReady;
 	private bool isActivated;
+	private RaycastHit2D[] hit2DArray = new RaycastHit2D[1];
+	[System.NonSerialized]
 	public bool isDragging; 
+	
 	
 	void Start()
 	{
@@ -24,21 +27,32 @@ public class DragShape : MonoBehaviour
 		isReady = true;
 	}
 
-	void OnMouseDown()
+	void Update()
 	{
 		if(!isReady) return;
 		
-		if(!isActivated)
+		
+		
+		if (Input.GetMouseButtonDown(0) && !isActivated)
 		{
-			isActivated = true;
-			screenPoint = Camera.main.WorldToScreenPoint(thisTransform.position);
+			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+			//Physics2D.GetRayIntersectionNonAlloc(ray,hit2DArray, Mathf.Infinity);
+			RaycastHit2D hit = Physics2D.GetRayIntersection(ray,Mathf.Infinity);
+		//	RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+			if(hit.collider != null && hit.collider.transform == thisTransform)
+			{
+				isActivated = true;
+				screenPoint = Camera.main.WorldToScreenPoint(thisTransform.position);
+			}
 		}
-	}
-	
-	void OnMouseDrag()
-	{
-		if(!isReady) return;
-		if(isActivated)
+		
+		if (Input.GetMouseButtonUp(0) && isActivated)
+		{
+			isActivated = false;
+			isDragging = false;
+		}
+		
+		if (isActivated)
 		{
 			isDragging = true;
 			Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
@@ -46,5 +60,5 @@ public class DragShape : MonoBehaviour
 			thisTransform.position = curPosition;
 		}
 	}
-	
+
 }

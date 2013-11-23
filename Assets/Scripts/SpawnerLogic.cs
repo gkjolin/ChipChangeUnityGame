@@ -23,9 +23,9 @@ public class SpawnerLogic : MonoBehaviour {
 		isReady = true;
 	}
 	
-	void OnMouseUp()
+	void Update()
 	{
-		if(isReady && !isActivated && dragShape.isDragging)
+		if(Input.GetMouseButtonUp(0) && isReady && !isActivated && dragShape.isDragging)
 		{
 			isActivated = true;
 			

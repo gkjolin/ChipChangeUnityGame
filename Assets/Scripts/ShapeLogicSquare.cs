@@ -66,7 +66,7 @@ public class ShapeLogicSquare : MonoBehaviour {
 			isFlippedLeft = Physics2D.Linecast(transform.position, sideCheckLeft.position, groundAndObstacleLayerMask);
 			if (isFlippedLeft)
 			{
-				rb2D.AddForce(flipYForce);
+				//rb2D.AddForce(flipYForce);
 				rb2D.AddTorque(-flipSpeed);
 			}
 			else 
@@ -74,7 +74,7 @@ public class ShapeLogicSquare : MonoBehaviour {
 				isFlippedRight = Physics2D.Linecast(transform.position, sideCheckRight.position, groundAndObstacleLayerMask);  
 				if (isFlippedRight)
 				{
-					rb2D.AddForce(flipYForce);
+					//rb2D.AddForce(flipYForce);
 					rb2D.AddTorque(flipSpeed);
 				}
 				else 
