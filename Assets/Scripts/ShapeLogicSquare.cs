@@ -6,9 +6,11 @@ public class ShapeLogicSquare : MonoBehaviour {
 	public Vector2 moveSpeed = new Vector2(50f,0f);
 	public Vector2 flipYForce = new Vector2(0f,50f);
 	public float flipSpeed = 60f;
+	public Transform deathParticle;
 	public LayerMask groundAndObstacleLayerMask;
 	
 	private Rigidbody2D rb2D;
+	private Transform thisTransform;
 	private Transform groundCheck;
 	private Transform sideCheckLeft;
 	private Transform sideCheckRight;
@@ -20,6 +22,7 @@ public class ShapeLogicSquare : MonoBehaviour {
 	void Start()
 	{
 		rb2D = rigidbody2D;
+		thisTransform = transform;
 		groundCheck = transform.Find("GroundCheck");
 		sideCheckLeft = transform.Find("SideCheckLeft");
 		sideCheckRight = transform.Find("SideCheckRight");
@@ -38,8 +41,6 @@ public class ShapeLogicSquare : MonoBehaviour {
 		if(isReady)
 		{
 			MoveAndCheckIfFlipped();
-			
-			
 		}
 	}
 	
@@ -97,6 +98,15 @@ public class ShapeLogicSquare : MonoBehaviour {
 			&& rb2D.angularVelocity < 5f) 
 				return true;
 		else return false;
+	}
+	
+	void DeathTrigger()		// Activated by Death Triggers
+	{
+		// Instantiate death particle prefab
+		Instantiate ( deathParticle, thisTransform.position, Quaternion.identity);
+		
+		// Disable this gameObject
+		gameObject.SetActive(false);
 	}
 	
 }

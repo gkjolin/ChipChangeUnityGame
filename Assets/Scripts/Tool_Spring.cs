@@ -4,12 +4,13 @@ using System.Collections;
 public class Tool_Spring : MonoBehaviour {
 	
 	public Vector2 forceAmount = new Vector2(500f,2000f);
-	// Use this for initialization
-	void Start () {
 	
+	private SpriteRenderer sprite;
+		
+	void Start () {
+		sprite = transform.Find("Sprite").GetComponent<SpriteRenderer>();
 	}
 	
-	// Update is called once per frame
 	void OnCollisionEnter2D (Collision2D col) 
 	{
 		if (col.gameObject.CompareTag("Shape"))
@@ -17,6 +18,9 @@ public class Tool_Spring : MonoBehaviour {
 			Vector2 shapeNormal = col.gameObject.rigidbody2D.velocity.normalized;
 			shapeNormal.y += .5f;
 			col.gameObject.rigidbody2D.AddForce(forceAmount);
+			
+			LeanTween.scale( sprite.gameObject, sprite.gameObject.transform.localScale * 1.1f, .1f, new object[]{ "ease",LeanTweenType.easeOutSine,"repeat",2,"loopType",LeanTweenType.pingPong });
+
 		}
 	}
 }

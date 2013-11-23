@@ -19,7 +19,8 @@ public class DragShape : MonoBehaviour
 	{
 		thisTransform = transform;
 		originalPos = thisTransform.position;
-		Invoke("SetIsReady",3f);
+		// Wait 2 seconds before doing anything
+		Invoke("SetIsReady",2f);
 	}
 
 	void SetIsReady()
@@ -31,14 +32,14 @@ public class DragShape : MonoBehaviour
 	{
 		if(!isReady) return;
 		
-		
-		
+		// Cant use OnMouseDown() etc in flash. Would have been easier and avoided raycasting
 		if (Input.GetMouseButtonDown(0) && !isActivated)
 		{
+			// Shoot a ray at mousePosition to see what 2d collider is hit
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-			//Physics2D.GetRayIntersectionNonAlloc(ray,hit2DArray, Mathf.Infinity);
 			RaycastHit2D hit = Physics2D.GetRayIntersection(ray,Mathf.Infinity);
-		//	RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);
+			
+			// If it hit this gameObject, we will activate the dragging
 			if(hit.collider != null && hit.collider.transform == thisTransform)
 			{
 				isActivated = true;
@@ -46,12 +47,14 @@ public class DragShape : MonoBehaviour
 			}
 		}
 		
+		// Stop dragging when the mouse is unclicked
 		if (Input.GetMouseButtonUp(0) && isActivated)
 		{
 			isActivated = false;
 			isDragging = false;
 		}
 		
+		// If if the mouse is still clicked, drag this gameObject to its location
 		if (isActivated)
 		{
 			isDragging = true;

@@ -6,7 +6,7 @@ TagManager:
   - CameraGUI
   - Spawn
   - Shape
-  - 
+  - Death
   - 
   - 
   - 
@@ -24,7 +24,7 @@ TagManager:
   User Layer 8: GUI
   User Layer 9: Ground
   User Layer 10: Obstacle
-  User Layer 11: 
+  User Layer 11: Spawn
   User Layer 12: 
   User Layer 13: 
   User Layer 14: 
