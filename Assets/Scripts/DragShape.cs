@@ -4,13 +4,15 @@ using System.Collections;
 
 public class DragShape : MonoBehaviour
 {
+	public bool rotateInsteadOfDrag;
+	
 	private Transform thisTransform;
 	private Vector3 screenPoint;
 	private Vector3 offset;
 	private Vector3 originalPos;
+	private float angleOffset;
 	private bool isReady;
 	private bool isActivated;
-	private RaycastHit2D[] hit2DArray = new RaycastHit2D[1];
 	[System.NonSerialized]
 	public bool isDragging; 
 	
@@ -44,6 +46,11 @@ public class DragShape : MonoBehaviour
 			{
 				isActivated = true;
 				screenPoint = Camera.main.WorldToScreenPoint(thisTransform.position);
+				if (rotateInsteadOfDrag)
+				{
+					Vector3 v3 = Input.mousePosition - screenPoint;
+					angleOffset = (Mathf.Atan2(transform.right.y, transform.right.x) - Mathf.Atan2(v3.y, v3.x))  * Mathf.Rad2Deg;
+				}
 			}
 		}
 		
@@ -60,7 +67,14 @@ public class DragShape : MonoBehaviour
 			isDragging = true;
 			Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-			thisTransform.position = curPosition;
+			
+			if (rotateInsteadOfDrag)
+			{
+				Vector3 v3 = Input.mousePosition - screenPoint;
+				float angle = Mathf.Atan2(v3.y, v3.x) * Mathf.Rad2Deg;
+				transform.eulerAngles = new Vector3(0,0,angle+angleOffset); 
+			}
+			else thisTransform.position = curPosition;
 		}
 	}
 
