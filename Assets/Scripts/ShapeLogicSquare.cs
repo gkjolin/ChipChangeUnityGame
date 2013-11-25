@@ -5,6 +5,7 @@ public class ShapeLogicSquare : MonoBehaviour {
 	
 	public Vector2 moveSpeed = new Vector2(50f,0f);
 	public Vector2 flipYForce = new Vector2(0f,50f);
+	public float maxXVelocity = 50f;
 	public float flipSpeed = 60f;
 	public Transform deathParticle;
 	public LayerMask groundAndObstacleLayerMask;
@@ -28,12 +29,22 @@ public class ShapeLogicSquare : MonoBehaviour {
 		sideCheckRight = transform.Find("SideCheckRight");
 		topCheck = transform.Find("TopCheck");
 		
-		Invoke("SetIsReady",1f);
+		Invoke("StartMoving",1f);
 	}
 	
-	void SetIsReady()
+	void StartMoving()
 	{
 		isReady = true;
+	}
+	
+	void StopMoving()
+	{
+		isReady = false;
+	}
+	
+	void StopMovingDelayed(float time)
+	{
+		Invoke("StopMoving", time);
 	}
 	
 	void FixedUpdate () 
@@ -56,7 +67,7 @@ public class ShapeLogicSquare : MonoBehaviour {
 		isGrounded = Physics2D.Linecast(transform.position, groundCheck.position, groundAndObstacleLayerMask);
 			
 		// If grounded, move forward
-		if (isGrounded)
+		if (isGrounded && rb2D.velocity.x < maxXVelocity)
 		{
 			rb2D.AddForce(moveSpeed);
 		}
@@ -90,6 +101,7 @@ public class ShapeLogicSquare : MonoBehaviour {
 			}
 		}	
 	}
+
 	
 	bool IsMovingSlowly()
 	{
@@ -99,6 +111,7 @@ public class ShapeLogicSquare : MonoBehaviour {
 				return true;
 		else return false;
 	}
+
 	
 	void DeathTrigger()		// Activated by Death Triggers
 	{

@@ -12,6 +12,7 @@ GameObject:
   - 61: {fileID: 6100000}
   - 50: {fileID: 5000000}
   - 114: {fileID: 11400000}
+  - 58: {fileID: 5800000}
   m_Layer: 0
   m_Name: ShapeSquare
   m_TagString: Shape
@@ -134,7 +135,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -1.86584949, z: 0}
+  m_LocalPosition: {x: 0, y: -1.89999998, z: 0}
   m_LocalScale: {x: 2.5, y: 2.5, z: 1}
   m_Children: []
   m_Father: {fileID: 400000}
@@ -146,13 +147,24 @@ Rigidbody2D:
   m_GameObject: {fileID: 100000}
   m_Mass: 2
   m_LinearDrag: 0
-  m_AngularDrag: .100000001
+  m_AngularDrag: 2
   m_GravityScale: 2
   m_FixedAngle: 0
   m_IsKinematic: 0
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
+--- !u!58 &5800000
+CircleCollider2D:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 0
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Radius: .5
+  m_Center: {x: .899999976, y: -.899999976}
 --- !u!61 &6100000
 BoxCollider2D:
   m_ObjectHideFlags: 1
@@ -175,9 +187,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d6068c670bf24d90917017e2334d19d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: {x: 20, y: 0}
+  moveSpeed: {x: 45, y: 3}
   flipYForce: {x: 0, y: 25}
-  flipSpeed: 140
+  maxXVelocity: 5
+  flipSpeed: 120
   deathParticle: {fileID: 400000, guid: c5b69f85c98ec4faa8e8d9e9a7be1639, type: 2}
   groundAndObstacleLayerMask:
     serializedVersion: 2
