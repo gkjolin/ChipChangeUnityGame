@@ -5,10 +5,10 @@ public class Tool_Spring : MonoBehaviour {
 	
 	public Vector2 forceAmount = new Vector2(500f,2000f);
 	
-	private SpriteRenderer sprite;
+	private Transform sprite;
 		
 	void Start () {
-		sprite = transform.Find("Sprite").GetComponent<SpriteRenderer>();
+		sprite = transform.Find("Particle");
 	}
 	
 	void OnCollisionEnter2D (Collision2D col) 
@@ -19,7 +19,7 @@ public class Tool_Spring : MonoBehaviour {
 			shapeNormal.y += .5f;
 			col.gameObject.rigidbody2D.AddForce(forceAmount);
 			
-			LeanTween.scale( sprite.gameObject, sprite.gameObject.transform.localScale * 1.1f, .1f, new object[]{ "ease",LeanTweenType.easeOutSine,"repeat",2,"loopType",LeanTweenType.pingPong });
+			LeanTween.scale( sprite.gameObject, sprite.localScale * 1.1f, .1f, new object[]{ "ease",LeanTweenType.easeOutSine,"repeat",2,"loopType",LeanTweenType.pingPong });
 
 		}
 	}

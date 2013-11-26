@@ -3,8 +3,10 @@ using System.Collections;
 
 public class ShapeLogicSquare : MonoBehaviour {
 	
-	public Vector2 moveSpeed = new Vector2(50f,0f);
+	public Vector2 moveYForce = new Vector2(0f, 5f);
+	public Vector2 moveYForcePos = new Vector2(1f,-.5f);
 	public Vector2 flipYForce = new Vector2(0f,50f);
+	public float moveSpeed = 30f;
 	public float maxXVelocity = 50f;
 	public float flipSpeed = 60f;
 	public Transform deathParticle;
@@ -69,7 +71,8 @@ public class ShapeLogicSquare : MonoBehaviour {
 		// If grounded, move forward
 		if (isGrounded && rb2D.velocity.x < maxXVelocity)
 		{
-			rb2D.AddForce(moveSpeed);
+			rb2D.AddForce(moveSpeed*transform.right);
+			rb2D.AddForceAtPosition(moveYForce,moveYForcePos);
 		}
 		// Check if square is stopped moving and flipped over, if so attempt to right itself.
 		else if (IsMovingSlowly ())

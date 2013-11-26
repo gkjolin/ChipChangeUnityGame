@@ -87,7 +87,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -77.1818085, y: -10.7248945, z: -6.7939806}
+  m_LocalPosition: {x: -79.6652756, y: .973184347, z: -54.4248962}
   m_LocalScale: {x: .200000003, y: .200000003, z: .200000003}
   m_Children:
   - {fileID: 400008}
@@ -187,8 +187,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d6068c670bf24d90917017e2334d19d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: {x: 45, y: 3}
-  flipYForce: {x: 0, y: 25}
+  moveYForce: {x: 0, y: .100000001}
+  moveYForcePos: {x: .100000001, y: -.00999999978}
+  flipYForce: {x: 0, y: 10}
+  moveSpeed: 35
   maxXVelocity: 5
   flipSpeed: 120
   deathParticle: {fileID: 400000, guid: c5b69f85c98ec4faa8e8d9e9a7be1639, type: 2}

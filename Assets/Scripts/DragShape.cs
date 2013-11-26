@@ -5,11 +5,17 @@ using System.Collections;
 public class DragShape : MonoBehaviour
 {
 	public bool rotateInsteadOfDrag;
+	public bool onlyDragVertical;
+	public bool onlyDragHorizontal;
+	
+	public float maxVerticalDrag;
+	public float minVerticalDrag;
+	public float maxHorizontalDrag;
+	public float minHorizontalDrag;
 	
 	private Transform thisTransform;
 	private Vector3 screenPoint;
 	private Vector3 offset;
-	private Vector3 originalPos;
 	private float angleOffset;
 	private bool isReady;
 	private bool isActivated;
@@ -20,7 +26,6 @@ public class DragShape : MonoBehaviour
 	void Start()
 	{
 		thisTransform = transform;
-		originalPos = thisTransform.position;
 		// Wait 2 seconds before doing anything
 		Invoke("SetIsReady",2f);
 	}

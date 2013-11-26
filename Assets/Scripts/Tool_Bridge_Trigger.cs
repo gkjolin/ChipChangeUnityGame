@@ -18,7 +18,7 @@ public class Tool_Bridge_Trigger: MonoBehaviour {
 		{
 			isTriggered = true;
 			parentRb2D.AddForceAtPosition(new Vector2(-100f,0f), new Vector2(1f,5f));
-			Invoke("SetKinematic",1.2f);
+			Invoke("SetKinematic",1.5f);
 			
 		}
 	}
