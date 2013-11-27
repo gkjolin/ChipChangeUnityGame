@@ -13,15 +13,15 @@ public class Chip_Main : MonoBehaviour {
 	public Transform particleDeath;
 	public LayerMask groundAndObstacleLayerMask;
 	
-	private Rigidbody2D rb2D;
-	private Transform thisTransform;
-	private Transform groundCheck;
-	private Transform sideCheckLeft;
-	private Transform sideCheckRight;
-	private Transform topCheck;
-	
-	private bool isReady;
-	private bool isGrounded;
+	Rigidbody2D rb2D;
+	GameObjectPool chipPool;
+	Transform thisTransform;
+	Transform groundCheck;
+	Transform sideCheckLeft;
+	Transform sideCheckRight;
+	Transform topCheck;
+	bool isReady;
+	bool isGrounded;
 	
 	void OnEnable()			
     {
@@ -37,6 +37,7 @@ public class Chip_Main : MonoBehaviour {
 	{
 		rb2D = rigidbody2D;
 		thisTransform = transform;
+		chipPool = GameObjectPool.GetPool("Chip_Pool");		//Setup the pool for spawning chips	
 		groundCheck = transform.Find("GroundCheck");
 		sideCheckLeft = transform.Find("SideCheckLeft");
 		sideCheckRight = transform.Find("SideCheckRight");
@@ -133,7 +134,7 @@ public class Chip_Main : MonoBehaviour {
 		Instantiate ( particleDeath, thisTransform.position, Quaternion.identity);
 		
 		// Disable this gameObject
-		gameObject.SetActive(false);
+		chipPool.ReleaseInstance(thisTransform);
 	}
 	
 	void FinishedDespawn()
@@ -141,7 +142,7 @@ public class Chip_Main : MonoBehaviour {
 	{
 		Instantiate(particleFinish, new Vector3(thisTransform.position.x,thisTransform.position.y,-10f)
 			,Quaternion.Euler(new Vector3(0f,90f,270f)));
-		gameObject.SetActive(false);
+		chipPool.ReleaseInstance(thisTransform);
 	}
 	
 	void OnReset()

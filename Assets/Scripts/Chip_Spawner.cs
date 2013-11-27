@@ -7,13 +7,15 @@ public class Chip_Spawner : MonoBehaviour {
 	
 	Drag_Chip dragChip;
 	Transform thisTransform;
+	Transform chipSpawned;
 	Vector3 originalLocalPosition;
 	Vector3 onScreenPosition;
 	Vector3 spawnPoint;
 	bool isReady;
 	bool isActivated;
-	int spawnLayer;
 	bool isOnScreen;
+	int spawnLayer;
+	GameObjectPool chipPool;
 	
 	void OnEnable()			
     {
@@ -27,8 +29,8 @@ public class Chip_Spawner : MonoBehaviour {
 	
 	void Start()
 	{
-		// cache these things for performance reasons
 		thisTransform = transform;
+		chipPool = GameObjectPool.GetPool("Chip_Pool");		//Setup the pool for spawning chips	
 		originalLocalPosition = thisTransform.localPosition;
 		onScreenPosition = new Vector3 (thisTransform.localPosition.x+1.5f,thisTransform.localPosition.y,thisTransform.localPosition.z);
 		// reference Drag_Chip script, will need it to check if we are dragging this shape
@@ -43,19 +45,16 @@ public class Chip_Spawner : MonoBehaviour {
 	{
 		isReady = true;
 	}
-	
-	void SetIsOnScreen()		// Called by Tracker_Spawn when this is moved on screen
-	{
-		isOnScreen = true;
-	}
-	
+
 	void Update()
 	{
-		if(!isOnScreen) return;
+		if (!Application.isEditor)		// Avoid this check when in editor because OnBecameVisible()
+		{								// doesnt work well while using separate editor window
+			if(!isOnScreen) return;
+		}
 		// If the user clicks down on the mouse and we havent done this before
 		if(Input.GetMouseButtonUp(0) && isReady && !isActivated && dragChip.isDragging)
 		{
-			print("!@");
 			// Use ScreenPointToRay to get world position of mouse, this will be the spawnPoint
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit2D hit = Physics2D.GetRayIntersection(ray,1000f,spawnLayer);
@@ -83,7 +82,7 @@ public class Chip_Spawner : MonoBehaviour {
 	void SpawnShapeAndMoveThis()
 	{
 		// Spawn the actual shape where the mouse is
-		Instantiate(shape, spawnPoint, transform.rotation);
+		chipSpawned = chipPool.GetInstance(thisTransform.position);
 		// Announce that we have successfully spawned
 		Messenger.Invoke ("chipSpawned");
 		// move this gameobject to it's original position off screen
@@ -96,6 +95,15 @@ public class Chip_Spawner : MonoBehaviour {
 	// Resets this script completely for a new level or user reset
 	{
 		isActivated = false;
-		print("reset2");
+	}
+	
+	void OnBecameVisible()
+	{
+		isOnScreen = true;
+	}
+	
+	void OnBecameInvinsible()
+	{
+		isOnScreen = false;
 	}
 }

@@ -7,15 +7,27 @@ public class Tracker_Finish : MonoBehaviour {
 	public int chipsNeeded;					// number of chips to finish the level
 	public Transform cameraPositionsParent;		// get an array of this gameobjects children to move camera to next level
 	
+	
 	Transform[] cameraPositionsArray;
 	TextMesh needChipsText;					// "Needs x" Tracks how many Chips we need to move to next level
 	int currentLevelInt;					// Tracks what level we are on
+	int chipsCount;							// Tracks remaining chips needed for this level
+	void OnEnable()			
+    {
+        Messenger.AddListener("reset", OnReset);			// Register to the reset event on enable
+    }
+	
+	void OnDisable()
+    {
+        Messenger.RemoveListener("reset", OnReset);			// Always make sure to unregister the event on disable
+    }
 	
 	void Start () 
 	{
 		needChipsText = GetComponent<TextMesh>();
+		chipsCount = chipsNeeded;
 		// Set chipsNeeded text
-		needChipsText.text = chipsNeeded + "chips";
+		needChipsText.text = chipsCount + "chips";
 		// make an array to hold the cameraPositions transform. Will use to move camera to next level
 		cameraPositionsArray = new Transform[cameraPositionsParent.childCount];
 		for (var i=0; i < cameraPositionsParent.childCount; i++){
@@ -31,10 +43,10 @@ public class Tracker_Finish : MonoBehaviour {
 			// Tell chip to despawn
 			col.gameObject.SendMessage("FinishedDespawn",SendMessageOptions.DontRequireReceiver);
 			// Reduce chipsNeeded count by 1
-			chipsNeeded -= 1;
+			chipsCount -= 1;
 			// Refresh text
-			needChipsText.text = chipsNeeded + " chips";
-			if (chipsNeeded == 0)
+			needChipsText.text = chipsCount + " chips";
+			if (chipsCount == 0)
 				LevelComplete();
 		}
 	}
@@ -44,5 +56,11 @@ public class Tracker_Finish : MonoBehaviour {
 		currentLevelInt += 1;
 		Messenger.Invoke("reset");
 		LeanTween.move( Camera.main.gameObject, cameraPositionsArray[currentLevelInt].position, 4f, new object[]{ "ease",LeanTweenType.easeInOutSine});
+	}
+	
+	void OnReset()
+	{
+		chipsCount = chipsNeeded;
+		needChipsText.text = chipsCount + " chips";
 	}
 }

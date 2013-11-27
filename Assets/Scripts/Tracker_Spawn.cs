@@ -50,8 +50,12 @@ public class Tracker_Spawn: MonoBehaviour {
 		// Setup the position where spawn shapes will slide into (they start offscreen)
 		spawnerMovePosition = new Vector3 (childrenArray[0].localPosition.x + 1.5f, childrenArray[0].localPosition.y, childrenArray[0].localPosition.z);
 		// Move the first child spawn shape into position
-		LeanTween.moveLocal( childrenArray[0].gameObject, spawnerMovePosition, .7f, new object[]{ "ease",LeanTweenType.easeOutSine});
-		childrenArray[0].SendMessage("SetIsOnScreen");
+		MoveChipSpawnerToScreen(0);
+	}
+	
+	void MoveChipSpawnerToScreen(int spawnerToMove)
+	{
+		LeanTween.moveLocal( childrenArray[spawnerToMove].gameObject, spawnerMovePosition, .7f, new object[]{ "ease",LeanTweenType.easeOutSine});
 	}
 	
 	void OnChipSpawned () 
@@ -62,11 +66,10 @@ public class Tracker_Spawn: MonoBehaviour {
 			currentSpawnCount -= 1;
 		// figure out which child we need to move in next.
 		int spawnerToMove = childrenArray.Length - currentSpawnCount;
-		// move em in
+		// move em in (making sure the spawnerToMove is within the childrenArray size)
 		if (spawnerToMove < childrenArray.Length)
 		{
-			LeanTween.moveLocal( childrenArray[spawnerToMove].gameObject, spawnerMovePosition, .7f, new object[]{ "ease",LeanTweenType.easeOutSine});
-			childrenArray[0].SendMessage("SetIsOnScreen");
+			MoveChipSpawnerToScreen(spawnerToMove);
 		}
 		if (currentSpawnCount >= 1)
 			// update spawn count text
@@ -75,7 +78,12 @@ public class Tracker_Spawn: MonoBehaviour {
 	
 	void OnReset()
 	{
-		// Reset spawn count and text
+		// Bring a new chip spawner on screen if the current spawn count is zero
+		if (currentSpawnCount <= 0)
+		{
+			MoveChipSpawnerToScreen(0);
+		}
+		// Reset spawn count and text	
 		currentSpawnCount = totalSpawnCount;
 		spawnCountText.text = "x" + (currentSpawnCount - 1);
 	}
