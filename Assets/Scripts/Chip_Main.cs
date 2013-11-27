@@ -3,12 +3,12 @@ using System.Collections;
 
 public class Chip_Main : MonoBehaviour {
 	
-	public Vector2 moveYForce = new Vector2(0f, 5f);
-	public Vector2 moveYForcePos = new Vector2(1f,-.5f);
-	public Vector2 flipYForce = new Vector2(0f,50f);
-	public float moveSpeed = 30f;
-	public float maxXVelocity = 50f;
-	public float flipSpeed = 60f;
+	public float moveSpeed = 25f;
+	public float maxXVelocity = 5f;
+	public float maxAngularVelocity = 3f;
+	public float flipSpeed = 180f;
+	public Vector2 flipYForce = new Vector2(0f,10f);
+
 	public Transform particleFinish; 
 	public Transform particleDeath;
 	public LayerMask groundAndObstacleLayerMask;
@@ -66,6 +66,7 @@ public class Chip_Main : MonoBehaviour {
 		if(isReady)
 		{
 			MoveAndCheckIfFlipped();
+			AngularVelocityLimitCheck();
 		}
 	}
 	
@@ -84,7 +85,6 @@ public class Chip_Main : MonoBehaviour {
 		if (isGrounded && rb2D.velocity.x < maxXVelocity)
 		{
 			rb2D.AddForce(moveSpeed*transform.right);
-			//rb2D.AddForceAtPosition(moveYForce,moveYForcePos);
 		}
 		// Check if square is stopped moving and flipped over, if so attempt to right itself.
 		else if (IsMovingSlowly ())
@@ -102,7 +102,7 @@ public class Chip_Main : MonoBehaviour {
 				if (isFlippedRight)
 				{
 					//rb2D.AddForce(flipYForce);
-					rb2D.AddTorque(flipSpeed);
+					rb2D.AddTorque(-flipSpeed);
 				}
 				else 
 				{
@@ -115,6 +115,12 @@ public class Chip_Main : MonoBehaviour {
 				}
 			}
 		}	
+	}
+	
+	void AngularVelocityLimitCheck()
+	{
+		if (rb2D.angularVelocity > maxAngularVelocity)
+			rb2D.angularVelocity = maxAngularVelocity;
 	}
 
 	
