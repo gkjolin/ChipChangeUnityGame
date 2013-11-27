@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Drag_Tool : MonoBehaviour
+public class Drag_Shape : MonoBehaviour
 {
 	public bool rotateInsteadOfDrag;
-	public bool limitVerticalDrag;
-	public bool limitHorizontalDrag;
+	public bool onlyDragVertical;
+	public bool onlyDragHorizontal;
 	
 	public float maxVerticalDrag;
 	public float minVerticalDrag;
@@ -15,7 +15,6 @@ public class Drag_Tool : MonoBehaviour
 	private Transform thisTransform;
 	private Vector3 screenPoint;
 	private Vector3 offset;
-	private Vector3 originalPosition;
 	private float angleOffset;
 	private bool isReady;
 	private bool isActivated;
@@ -26,7 +25,6 @@ public class Drag_Tool : MonoBehaviour
 	void Start()
 	{
 		thisTransform = transform;
-		originalPosition = thisTransform.position;
 		// Wait 2 seconds before doing anything
 		Invoke("SetIsReady",2f);
 	}
@@ -64,7 +62,7 @@ public class Drag_Tool : MonoBehaviour
 		if (Input.GetMouseButtonUp(0) && isActivated)
 		{
 			isActivated = false;
-			isDragging = false;
+			Invoke("ResetIsDragging",.1f);
 		}
 		
 		// If if the mouse is still clicked, drag this gameObject to its location
@@ -74,43 +72,19 @@ public class Drag_Tool : MonoBehaviour
 			Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
 			
-			Vector3 newPosition = thisTransform.position;
-			
 			if (rotateInsteadOfDrag)
 			{
 				Vector3 v3 = Input.mousePosition - screenPoint;
 				float angle = Mathf.Atan2(v3.y, v3.x) * Mathf.Rad2Deg;
 				transform.eulerAngles = new Vector3(0,0,angle+angleOffset); 
 			}
-			
-			if (limitHorizontalDrag)
-			{
-				if (curPosition.x <= originalPosition.x + maxHorizontalDrag
-					&& curPosition.x >= originalPosition.x - minHorizontalDrag)
-				{
-					newPosition.x = curPosition.x;
-				}
-			}
-			else
-			{
-				newPosition.x = curPosition.x;
-			}
-			
-			if (limitVerticalDrag)
-			{
-				if (curPosition.y <= originalPosition.y + maxVerticalDrag
-					&& curPosition.y >= originalPosition.y - minVerticalDrag)
-				{
-					newPosition.y = curPosition.y;
-				}
-			}
-			else
-			{
-				newPosition.y = curPosition.y;
-			}
-			
-			thisTransform.position = newPosition;
+			else thisTransform.position = curPosition;
 		}
+	}
+	
+	void ResetIsDragging()
+	{
+		isDragging = false;	
 	}
 
 }

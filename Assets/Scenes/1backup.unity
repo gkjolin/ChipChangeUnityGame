@@ -2945,7 +2945,7 @@ GameObject:
   - 114: {fileID: 643143657}
   - 95: {fileID: 643143656}
   m_Layer: 8
-  m_Name: Spawner_Chip
+  m_Name: Spawner_Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4858,7 +4858,7 @@ GameObject:
   - 114: {fileID: 1279541947}
   - 95: {fileID: 1279541946}
   m_Layer: 8
-  m_Name: Spawner_Chip
+  m_Name: Spawner_Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5114,8 +5114,8 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: 1, y: 1.01436377}
-  m_Center: {x: 0, y: .00718307495}
+  m_Size: {x: 1, y: 1}
+  m_Center: {x: 0, y: 0}
 --- !u!23 &1404906665
 Renderer:
   m_ObjectHideFlags: 0
@@ -5261,7 +5261,7 @@ GameObject:
   - 114: {fileID: 1565995026}
   - 95: {fileID: 1565995025}
   m_Layer: 8
-  m_Name: Spawner_Chip
+  m_Name: Spawner_Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -7792,7 +7792,7 @@ GameObject:
   - 114: {fileID: 1781173891}
   - 95: {fileID: 1781173890}
   m_Layer: 8
-  m_Name: Spawner_Chip
+  m_Name: Spawner_Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9037,7 +9037,7 @@ GameObject:
   - 114: {fileID: 1882033868}
   - 95: {fileID: 1882033874}
   m_Layer: 8
-  m_Name: Spawner_Chip
+  m_Name: Spawner_Square
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

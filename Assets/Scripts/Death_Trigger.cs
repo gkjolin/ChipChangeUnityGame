@@ -11,7 +11,7 @@ public class Death_Trigger : MonoBehaviour {
 	// Update is called once per frame
 	void OnTriggerEnter2D (Collider2D col) 
 	{
-		if (col.gameObject.CompareTag("Shape"))
+		if (col.gameObject.CompareTag("Chip"))
 		{
 			col.gameObject.SendMessage("DeathTrigger",SendMessageOptions.DontRequireReceiver);
 		}
