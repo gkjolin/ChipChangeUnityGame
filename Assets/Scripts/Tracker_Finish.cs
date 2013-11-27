@@ -42,6 +42,7 @@ public class Tracker_Finish : MonoBehaviour {
 	void LevelComplete()
 	{
 		currentLevelInt += 1;
+		Messenger.Invoke("reset");
 		LeanTween.move( Camera.main.gameObject, cameraPositionsArray[currentLevelInt].position, 4f, new object[]{ "ease",LeanTweenType.easeInOutSine});
 	}
 }

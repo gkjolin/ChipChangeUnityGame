@@ -12,15 +12,24 @@ public class Drag_Chip : MonoBehaviour
 	public float maxHorizontalDrag;
 	public float minHorizontalDrag;
 	
-	private Transform thisTransform;
-	private Vector3 screenPoint;
-	private Vector3 offset;
-	private float angleOffset;
-	private bool isReady;
-	private bool isActivated;
+	Transform thisTransform;
+	Vector3 screenPoint;
+	Vector3 offset;
+	float angleOffset;
+	bool isReady;
+	bool isActivated;
 	[System.NonSerialized]
 	public bool isDragging; 
 	
+	void OnEnable()			
+    {
+        Messenger.AddListener("reset", OnReset);			// Register to the reset event on enable
+    }
+	
+	void OnDisable()
+    {
+        Messenger.RemoveListener("reset", OnReset);			// Always make sure to unregister the event on disable
+    }
 	
 	void Start()
 	{
@@ -89,7 +98,7 @@ public class Drag_Chip : MonoBehaviour
 	
 	
 	// Resets this gameobject completely. For next level and user reset
-	void Reset()
+	void OnReset()
 	{
 		isActivated = false;	
 	}

@@ -9,8 +9,8 @@ public class Chip_Main : MonoBehaviour {
 	public float moveSpeed = 30f;
 	public float maxXVelocity = 50f;
 	public float flipSpeed = 60f;
+	public Transform particleFinish; 
 	public Transform particleDeath;
-	public Transform particleFinish;
 	public LayerMask groundAndObstacleLayerMask;
 	
 	private Rigidbody2D rb2D;
@@ -22,6 +22,16 @@ public class Chip_Main : MonoBehaviour {
 	
 	private bool isReady;
 	private bool isGrounded;
+	
+	void OnEnable()			
+    {
+        Messenger.AddListener("reset", OnReset);			// Register to the reset event on enable
+    }
+	
+	void OnDisable()
+    {
+        Messenger.RemoveListener("reset", OnReset);			// Always make sure to unregister the event on disable
+    }
 	
 	void Start()
 	{
@@ -132,6 +142,11 @@ public class Chip_Main : MonoBehaviour {
 		Instantiate(particleFinish, new Vector3(thisTransform.position.x,thisTransform.position.y,-10f)
 			,Quaternion.Euler(new Vector3(0f,90f,270f)));
 		gameObject.SetActive(false);
+	}
+	
+	void OnReset()
+	{
+		// do somethin	
 	}
 	
 }

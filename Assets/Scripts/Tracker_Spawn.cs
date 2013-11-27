@@ -6,8 +6,21 @@ public class Tracker_Spawn: MonoBehaviour {
 	
 	Transform[] childrenArray;
 	TextMesh spawnCountText;
+	int totalSpawnCount;
 	int currentSpawnCount;
 	Vector3 spawnerMovePosition;
+	
+	void OnEnable()			
+    {
+        Messenger.AddListener("reset", OnReset);			// Register to the reset event on enable
+		Messenger.AddListener("chipSpawned", OnChipSpawned);
+    }
+	
+	void OnDisable()
+    {
+        Messenger.RemoveListener("reset", OnReset);			// Always make sure to unregister the event on disable
+		Messenger.RemoveListener("chipSpawned", OnChipSpawned);
+    }
 	
 	void Start () 
 	{
@@ -29,29 +42,41 @@ public class Tracker_Spawn: MonoBehaviour {
 	
 	void Setup()
 	{
-		// Get the current number of children of this gameobject
-		currentSpawnCount = childrenArray.Length;
+		// Get the number of children of this gameobject
+		totalSpawnCount = childrenArray.Length;
+		currentSpawnCount = totalSpawnCount;
 		// Setup the spawn count text
 		spawnCountText.text = "x" + (currentSpawnCount - 1);
 		// Setup the position where spawn shapes will slide into (they start offscreen)
-		spawnerMovePosition = new Vector3 (childrenArray[0].position.x + 1.5f, childrenArray[0].position.y, childrenArray[0].position.z);
+		spawnerMovePosition = new Vector3 (childrenArray[0].localPosition.x + 1.5f, childrenArray[0].localPosition.y, childrenArray[0].localPosition.z);
 		// Move the first child spawn shape into position
-		LeanTween.move( childrenArray[0].gameObject, spawnerMovePosition, .7f, new object[]{ "ease",LeanTweenType.easeOutSine});
+		LeanTween.moveLocal( childrenArray[0].gameObject, spawnerMovePosition, .7f, new object[]{ "ease",LeanTweenType.easeOutSine});
+		childrenArray[0].SendMessage("SetIsOnScreen");
 	}
 	
-	void SpawnedShape () 
+	void OnChipSpawned () 
 	{
-		// This method is called by the spawner shapes when they spawn a shape
+		// This method is called by the Chip_Spawner when they spawn a chip
 		// Reduce our spawn count by 1.
 		if (currentSpawnCount != 0)
 			currentSpawnCount -= 1;
 		// figure out which child we need to move in next.
 		int spawnerToMove = childrenArray.Length - currentSpawnCount;
 		// move em in
-		if (spawnerToMove < childrenArray.Length) 
-			LeanTween.move( childrenArray[spawnerToMove].gameObject, spawnerMovePosition, .7f, new object[]{ "ease",LeanTweenType.easeOutSine});
+		if (spawnerToMove < childrenArray.Length)
+		{
+			LeanTween.moveLocal( childrenArray[spawnerToMove].gameObject, spawnerMovePosition, .7f, new object[]{ "ease",LeanTweenType.easeOutSine});
+			childrenArray[0].SendMessage("SetIsOnScreen");
+		}
 		if (currentSpawnCount >= 1)
 			// update spawn count text
 			spawnCountText.text = "x" + (currentSpawnCount - 1);
+	}
+	
+	void OnReset()
+	{
+		// Reset spawn count and text
+		currentSpawnCount = totalSpawnCount;
+		spawnCountText.text = "x" + (currentSpawnCount - 1);
 	}
 }
