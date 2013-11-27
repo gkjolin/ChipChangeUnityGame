@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Drag_Shape : MonoBehaviour
+public class Drag_Chip : MonoBehaviour
 {
 	public bool rotateInsteadOfDrag;
 	public bool onlyDragVertical;
@@ -85,6 +85,13 @@ public class Drag_Shape : MonoBehaviour
 	void ResetIsDragging()
 	{
 		isDragging = false;	
+	}
+	
+	
+	// Resets this gameobject completely. For next level and user reset
+	void Reset()
+	{
+		isActivated = false;	
 	}
 
 }

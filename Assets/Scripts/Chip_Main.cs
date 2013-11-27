@@ -73,7 +73,7 @@ public class Chip_Main : MonoBehaviour {
 		if (isGrounded && rb2D.velocity.x < maxXVelocity)
 		{
 			rb2D.AddForce(moveSpeed*transform.right);
-			rb2D.AddForceAtPosition(moveYForce,moveYForcePos);
+			//rb2D.AddForceAtPosition(moveYForce,moveYForcePos);
 		}
 		// Check if square is stopped moving and flipped over, if so attempt to right itself.
 		else if (IsMovingSlowly ())

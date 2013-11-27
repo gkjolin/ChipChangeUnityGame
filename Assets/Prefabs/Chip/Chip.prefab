@@ -220,10 +220,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveYForce: {x: 0, y: .100000001}
   moveYForcePos: {x: .100000001, y: -.00999999978}
-  flipYForce: {x: 0, y: 10}
-  moveSpeed: 35
+  flipYForce: {x: 0, y: 8}
+  moveSpeed: 25
   maxXVelocity: 5
-  flipSpeed: 200
+  flipSpeed: 130
   particleDeath: {fileID: 400000, guid: c5b69f85c98ec4faa8e8d9e9a7be1639, type: 2}
   particleFinish: {fileID: 400000, guid: 5f49b28cd6f344f25a7ec7211b6be8ba, type: 2}
   groundAndObstacleLayerMask:
