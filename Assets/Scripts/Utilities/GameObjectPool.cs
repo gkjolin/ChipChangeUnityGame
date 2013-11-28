@@ -7,8 +7,10 @@ using System.Collections.Generic;
 
 public class GameObjectPool : MonoBehaviour
 {
-    private static readonly Dictionary<string, GameObjectPool> _poolsByName = new Dictionary<string, GameObjectPool>();
-
+   private static readonly Dictionary<string, GameObjectPool> _poolsByName = new Dictionary<string, GameObjectPool>();
+//	private static readonly ArrayList poolListNames = new ArrayList();
+//	private static readonly ArrayList poolListObjects = new ArrayList();
+	
     public static GameObjectPool GetPool(string name) { return _poolsByName[name]; }
 
     [SerializeField]
@@ -23,12 +25,16 @@ public class GameObjectPool : MonoBehaviour
     [SerializeField]
     private bool _parentInstances = true;
 
-    private readonly Stack<Transform> _instances = new Stack<Transform>();
+    private readonly ArrayList _instances = new ArrayList();
 
     void Awake()
     {
-        System.Diagnostics.Debug.Assert(_prefab);
-        _poolsByName[_poolName] = this;
+//		poolListNames.Add (_poolName);
+//		int poolIndex = poolList.IndexOf(_poolName);
+	//	poolList[poolIndex]
+		_poolsByName[_poolName] = this;
+			
+        System.Diagnostics.Debug.Assert(_prefab);		
 
         for (int i = 0; i < _initialCount; i++)
         {
@@ -38,17 +44,18 @@ public class GameObjectPool : MonoBehaviour
         }
     }
 
-    public Transform GetInstance(Vector3 position = new Vector3())
+    public Transform GetInstance(Vector3 position)
     {
         Transform t = null;
 
         if (_instances.Count > 0)
         {
-            t = _instances.Pop();
+            t = (Transform) _instances[0];
+			_instances.RemoveAt(0);
         }
         else
         {
-            Debug.LogWarning(_poolName + " pool ran out of instances!", this);
+            //Debug.LogWarning(_poolName + " pool ran out of instances!", this);
             t = Instantiate(_prefab) as Transform;
         }
 
@@ -73,6 +80,6 @@ public class GameObjectPool : MonoBehaviour
     {
         instance.BroadcastMessage("OnPoolRelease", this, SendMessageOptions.DontRequireReceiver);
         instance.gameObject.SetActive(false);
-        _instances.Push(instance);
+        _instances.Insert(0, instance);
     }
 }

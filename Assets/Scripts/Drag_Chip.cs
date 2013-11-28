@@ -3,15 +3,6 @@ using System.Collections;
 
 public class Drag_Chip : MonoBehaviour
 {
-	public bool rotateInsteadOfDrag;
-	public bool onlyDragVertical;
-	public bool onlyDragHorizontal;
-	
-	public float maxVerticalDrag;
-	public float minVerticalDrag;
-	public float maxHorizontalDrag;
-	public float minHorizontalDrag;
-	
 	Transform thisTransform;
 	Vector3 screenPoint;
 	Vector3 offset;
@@ -59,11 +50,6 @@ public class Drag_Chip : MonoBehaviour
 			{
 				isActivated = true;
 				screenPoint = Camera.main.WorldToScreenPoint(thisTransform.position);
-				if (rotateInsteadOfDrag)
-				{
-					Vector3 v3 = Input.mousePosition - screenPoint;
-					angleOffset = (Mathf.Atan2(transform.right.y, transform.right.x) - Mathf.Atan2(v3.y, v3.x))  * Mathf.Rad2Deg;
-				}
 			}
 		}
 		
@@ -77,17 +63,12 @@ public class Drag_Chip : MonoBehaviour
 		// If if the mouse is still clicked, drag this gameObject to its location
 		if (isActivated)
 		{
+			
 			isDragging = true;
 			Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
 			
-			if (rotateInsteadOfDrag)
-			{
-				Vector3 v3 = Input.mousePosition - screenPoint;
-				float angle = Mathf.Atan2(v3.y, v3.x) * Mathf.Rad2Deg;
-				transform.eulerAngles = new Vector3(0,0,angle+angleOffset); 
-			}
-			else thisTransform.position = curPosition;
+			thisTransform.position = curPosition;
 		}
 	}
 	

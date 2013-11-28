@@ -6,8 +6,8 @@
 // each other.
  
 using System;
+using System.Collections;
 using System.Collections.Generic;
- 
  
 /**
  * A messenger for events that have no parameters.
@@ -56,17 +56,16 @@ static public class Messenger
         Delegate d;
         // Invoke the delegate only if the event type is in the dictionary.
         if (eventTable.TryGetValue(eventType, out d))
-        {
-            // Take a local copy to prevent a race condition if another thread
+        {// Take a local copy to prevent a race condition if another thread
             // were to unsubscribe from this event.
             Callback callback = (Callback) d;
  
             // Invoke the delegate if it's not null.
-            if (callback != null)
-            {
-                callback();
+//            if (callback != null)
+   //         {
+              callback();
             }
-        }
+  //      }
     }
 }
  
@@ -83,7 +82,7 @@ static public class Messenger<T>
         // Obtain a lock on the event table to keep this thread-safe.
         lock (eventTable)
         {
-            // Create an entry for this event type if it doesn't already exist.
+			// Create an entry for this event type if it doesn't already exist.
             if (!eventTable.ContainsKey(eventType))
             {
                 eventTable.Add(eventType, null);
@@ -125,7 +124,7 @@ static public class Messenger<T>
  
             // Invoke the delegate if it's not null.
             if (callback != null)
-            {
+			{
                 callback(arg1);
             }
         }

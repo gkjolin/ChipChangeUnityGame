@@ -74,7 +74,7 @@ public class Drag_Tool : MonoBehaviour
 			Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
 			
-			Vector3 newPosition = thisTransform.position;
+			Vector3 newPosition = thisTransform.position;			
 			
 			if (rotateInsteadOfDrag)
 			{
@@ -84,30 +84,12 @@ public class Drag_Tool : MonoBehaviour
 			}
 			
 			if (limitHorizontalDrag)
-			{
-				if (curPosition.x <= originalPosition.x + maxHorizontalDrag
-					&& curPosition.x >= originalPosition.x - minHorizontalDrag)
-				{
-					newPosition.x = curPosition.x;
-				}
-			}
-			else
-			{
-				newPosition.x = curPosition.x;
-			}
+				newPosition.x = Mathf.Clamp(curPosition.x,originalPosition.x - minHorizontalDrag, originalPosition.x + maxHorizontalDrag);
+			else newPosition.x = curPosition.x;
 			
 			if (limitVerticalDrag)
-			{
-				if (curPosition.y <= originalPosition.y + maxVerticalDrag
-					&& curPosition.y >= originalPosition.y - minVerticalDrag)
-				{
-					newPosition.y = curPosition.y;
-				}
-			}
-			else
-			{
-				newPosition.y = curPosition.y;
-			}
+				newPosition.y = Mathf.Clamp(curPosition.y,originalPosition.y - minVerticalDrag, originalPosition.y + maxVerticalDrag);
+			else newPosition.y = curPosition.y;
 			
 			thisTransform.position = newPosition;
 		}

@@ -81,8 +81,7 @@ public class Chip_Main : MonoBehaviour {
 		// groundCheck, sideCheck, etc are child gameobjects of this gameobject
 		groundLineCast = Physics2D.Linecast(transform.position, groundCheck.position, groundAndObstacleLayerMask);
 		isGrounded = groundLineCast;
-		//print(groundLineCast.normal);
-		print(rb2D.angularVelocity);
+		
 		// If grounded, move forward
 		if (isGrounded && rb2D.velocity.x < maxXVelocity && groundLineCast.normal.y > .5f)
 		{
