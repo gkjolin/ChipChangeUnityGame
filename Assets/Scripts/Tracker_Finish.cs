@@ -27,7 +27,7 @@ public class Tracker_Finish : MonoBehaviour {
 		needChipsText = GetComponent<TextMesh>();
 		chipsCount = chipsNeeded;
 		// Set chipsNeeded text
-		needChipsText.text = chipsCount + "chips";
+		needChipsText.text = "need " + chipsCount + " more chips";
 		// make an array to hold the cameraPositions transform. Will use to move camera to next level
 		cameraPositionsArray = new Transform[cameraPositionsParent.childCount];
 		for (var i=0; i < cameraPositionsParent.childCount; i++){
@@ -45,7 +45,7 @@ public class Tracker_Finish : MonoBehaviour {
 			// Reduce chipsNeeded count by 1
 			chipsCount -= 1;
 			// Refresh text
-			needChipsText.text = chipsCount + " chips";
+			needChipsText.text = "need " + chipsCount + " more chips";
 			if (chipsCount == 0)
 				LevelComplete();
 		}

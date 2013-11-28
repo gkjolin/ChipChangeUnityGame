@@ -9,7 +9,6 @@ public class Chip_Main : MonoBehaviour {
 	public float flipSpeed = 180f;
 	public Vector2 flipYForce = new Vector2(0f,10f);
 
-	public Transform particleFinish; 
 	public Transform particleDeath;
 	public LayerMask groundAndObstacleLayerMask;
 	
@@ -20,6 +19,7 @@ public class Chip_Main : MonoBehaviour {
 	Transform sideCheckLeft;
 	Transform sideCheckRight;
 	Transform topCheck;
+	RaycastHit2D groundLineCast;
 	bool isReady;
 	bool isGrounded;
 	
@@ -79,10 +79,12 @@ public class Chip_Main : MonoBehaviour {
 		
 		// Use a linecast to see if Ground Layer is directly below
 		// groundCheck, sideCheck, etc are child gameobjects of this gameobject
-		isGrounded = Physics2D.Linecast(transform.position, groundCheck.position, groundAndObstacleLayerMask);
-			
+		groundLineCast = Physics2D.Linecast(transform.position, groundCheck.position, groundAndObstacleLayerMask);
+		isGrounded = groundLineCast;
+		//print(groundLineCast.normal);
+		print(rb2D.angularVelocity);
 		// If grounded, move forward
-		if (isGrounded && rb2D.velocity.x < maxXVelocity)
+		if (isGrounded && rb2D.velocity.x < maxXVelocity && groundLineCast.normal.y > .5f)
 		{
 			rb2D.AddForce(moveSpeed*transform.right);
 		}
@@ -93,7 +95,7 @@ public class Chip_Main : MonoBehaviour {
 			isFlippedLeft = Physics2D.Linecast(transform.position, sideCheckLeft.position, groundAndObstacleLayerMask);
 			if (isFlippedLeft)
 			{
-				//rb2D.AddForce(flipYForce);
+				rb2D.AddForce(flipYForce);
 				rb2D.AddTorque(-flipSpeed);
 			}
 			else 
@@ -101,7 +103,7 @@ public class Chip_Main : MonoBehaviour {
 				isFlippedRight = Physics2D.Linecast(transform.position, sideCheckRight.position, groundAndObstacleLayerMask);  
 				if (isFlippedRight)
 				{
-					//rb2D.AddForce(flipYForce);
+					rb2D.AddForce(flipYForce);
 					rb2D.AddTorque(-flipSpeed);
 				}
 				else 
@@ -119,8 +121,8 @@ public class Chip_Main : MonoBehaviour {
 	
 	void AngularVelocityLimitCheck()
 	{
-		if (rb2D.angularVelocity > maxAngularVelocity)
-			rb2D.angularVelocity = maxAngularVelocity;
+		if (Mathf.Abs (rb2D.angularVelocity) > maxAngularVelocity)
+			rb2D.angularVelocity = Mathf.Clamp(rb2D.angularVelocity,-maxAngularVelocity,maxAngularVelocity);
 	}
 
 	
@@ -138,7 +140,7 @@ public class Chip_Main : MonoBehaviour {
 	{
 		// Instantiate death particle prefab
 		Instantiate ( particleDeath, thisTransform.position, Quaternion.identity);
-		
+		thisTransform.localEulerAngles = Vector3.zero;
 		// Disable this gameObject
 		chipPool.ReleaseInstance(thisTransform);
 	}
@@ -146,14 +148,13 @@ public class Chip_Main : MonoBehaviour {
 	void FinishedDespawn()
 	// Called by Tracker_Finish (Text_Tracker_Finish gameobject) when this chip reaches the finish
 	{
-		Instantiate(particleFinish, new Vector3(thisTransform.position.x,thisTransform.position.y,-10f)
-			,Quaternion.Euler(new Vector3(0f,90f,270f)));
+		thisTransform.localEulerAngles = Vector3.zero;
 		chipPool.ReleaseInstance(thisTransform);
 	}
 	
 	void OnReset()
 	{
-		// do somethin	
+		DeathTrigger();	
 	}
 	
 }
