@@ -20,11 +20,13 @@ public class Chip_Spawner : MonoBehaviour {
 	void OnEnable()			
     {
         Messenger.AddListener("reset", OnReset);			// Register to the reset event on enable
+		Messenger.AddListener("levelComplete", OnLevelComplete);			
     }
 	
 	void OnDisable()
     {
         Messenger.RemoveListener("reset", OnReset);			// Always make sure to unregister the event on disable
+		Messenger.RemoveListener("levelComplete", OnLevelComplete);			
     }
 	
 	void Start()
@@ -92,6 +94,12 @@ public class Chip_Spawner : MonoBehaviour {
 	}
 	
 	void OnReset()
+	// Resets this script completely for a new level or user reset
+	{
+		isActivated = false;
+	}
+	
+	void OnLevelComplete()
 	// Resets this script completely for a new level or user reset
 	{
 		isActivated = false;

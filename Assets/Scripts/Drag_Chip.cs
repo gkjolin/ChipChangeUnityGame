@@ -15,11 +15,13 @@ public class Drag_Chip : MonoBehaviour
 	void OnEnable()			
     {
         Messenger.AddListener("reset", OnReset);			// Register to the reset event on enable
+		Messenger.AddListener("levelComplete", OnLevelComplete);			
     }
 	
 	void OnDisable()
     {
         Messenger.RemoveListener("reset", OnReset);			// Always make sure to unregister the event on disable
+		Messenger.RemoveListener("levelComplete", OnLevelComplete);			
     }
 	
 	void Start()
@@ -80,6 +82,11 @@ public class Drag_Chip : MonoBehaviour
 	
 	// Resets this gameobject completely. For next level and user reset
 	void OnReset()
+	{
+		isActivated = false;	
+	}
+	
+	void OnLevelComplete()
 	{
 		isActivated = false;	
 	}

@@ -26,11 +26,13 @@ public class Chip_Main : MonoBehaviour {
 	void OnEnable()			
     {
         Messenger.AddListener("reset", OnReset);			// Register to the reset event on enable
+		Messenger.AddListener("levelComplete", OnLevelComplete);			
     }
 	
 	void OnDisable()
     {
         Messenger.RemoveListener("reset", OnReset);			// Always make sure to unregister the event on disable
+		Messenger.RemoveListener("levelComplete", OnLevelComplete);			
     }
 	
 	void Start()
@@ -152,6 +154,11 @@ public class Chip_Main : MonoBehaviour {
 	}
 	
 	void OnReset()
+	{
+		DeathTrigger();	
+	}
+	
+	void OnLevelComplete()
 	{
 		DeathTrigger();	
 	}
