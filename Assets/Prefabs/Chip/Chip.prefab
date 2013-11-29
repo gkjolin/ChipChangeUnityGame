@@ -9,7 +9,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400000}
   - 212: {fileID: 21200000}
-  - 61: {fileID: 6100000}
+  - 61: {fileID: 6100002}
   - 50: {fileID: 5000000}
   - 114: {fileID: 11400000}
   - 95: {fileID: 9500002}
@@ -87,7 +87,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -165.687744, y: -5.56494284, z: 2.73974609}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: .300000012, y: .300000012, z: .300000012}
   m_Children:
   - {fileID: 400008}
@@ -154,7 +154,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
---- !u!61 &6100000
+--- !u!61 &6100002
 BoxCollider2D:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -163,8 +163,8 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 6200000, guid: dd06a661f53044b1aabd827d7cc800b1, type: 2}
   m_IsTrigger: 0
-  m_Size: {x: 1.98628342, y: 1.90655708}
-  m_Center: {x: .152638748, y: .0677307397}
+  m_Size: {x: 1.98628342, y: 1.66186631}
+  m_Center: {x: .152586356, y: -.0546106696}
 --- !u!95 &9500002
 Animator:
   serializedVersion: 2
@@ -177,7 +177,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: e3bcae1852a1a4db2a77e7211d1c92fd, type: 2}
   m_CullingMode: 0
   m_ApplyRootMotion: 0
-  m_AnimatePhysics: 1
+  m_AnimatePhysics: 0
   m_HasTransformHierarchy: 1
 --- !u!114 &11400000
 MonoBehaviour:
@@ -190,7 +190,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d6068c670bf24d90917017e2334d19d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 25
+  moveSpeed: 20
   maxXVelocity: 5
   maxAngularVelocity: 150
   flipSpeed: 180
@@ -198,7 +198,7 @@ MonoBehaviour:
   particleDeath: {fileID: 400000, guid: c5b69f85c98ec4faa8e8d9e9a7be1639, type: 2}
   groundAndObstacleLayerMask:
     serializedVersion: 2
-    m_Bits: 1536
+    m_Bits: 9728
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1

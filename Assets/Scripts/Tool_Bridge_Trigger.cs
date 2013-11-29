@@ -25,7 +25,6 @@ public class Tool_Bridge_Trigger: MonoBehaviour {
 	
 	void SetKinematic()
 	{
-		print("D");
 		parentRb2D.isKinematic = true;
 		Vector3 moveParentDownPos = new Vector3(parentTransform.position.x,parentTransform.position.y-.1f,parentTransform.position.z);
 		LeanTween.move( parentTransform.gameObject, moveParentDownPos, .8f, new object[]{ "ease",LeanTweenType.easeInOutSine});

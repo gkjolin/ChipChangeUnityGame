@@ -8,21 +8,7 @@ public class Trigger_TurnAround : MonoBehaviour {
 
 	bool isActivated;
 	Transform colTransform;
-
-//	void OnTriggerEnter2D (Collider2D col)
-//	{
-//		if (isActivated) return;
-//		if (col.gameObject.layer == 13)
-//		{
-//			print("enter");
-//			isActivated = true;
-//			Invoke("ResetIsActivated", 0.1f);
-//			colTransform = col.gameObject.transform;
-//			if (turnLeft) colTransform.SendMessage("ChangeDirections", -1);
-//			else if (turnRight) colTransform.SendMessage("ChangeDirections", 1);
-//
-//		}
-//	}
+	
 
 	void OnTriggerStay2D (Collider2D col)
 	{
