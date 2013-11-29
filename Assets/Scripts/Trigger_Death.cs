@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Death_Trigger : MonoBehaviour {
+public class Trigger_Death : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {

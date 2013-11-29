@@ -97,6 +97,7 @@ public class Tracker_Spawn: MonoBehaviour {
 
 	void OnLevelComplete()
 	{
+		textEffect.RemoveText();
 		Invoke("OnReset",6f);
 	}
 }

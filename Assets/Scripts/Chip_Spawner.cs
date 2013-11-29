@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Chip_Spawner : MonoBehaviour {
 
-	public GameObject shape;
+	public GameObject prefab;
 	
 	Drag_Chip dragChip;
 	Transform thisTransform;

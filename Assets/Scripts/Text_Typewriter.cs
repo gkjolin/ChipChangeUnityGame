@@ -44,7 +44,6 @@ public class Text_Typewriter : MonoBehaviour {
 
 	public void ShowText ()									// Show text no params will use TextToShow property with 0 seconds delay
 	{
-		print("sdsd");
 		ShowText (TextToShow,0f);
 	}
 

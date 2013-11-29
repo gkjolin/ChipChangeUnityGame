@@ -12,21 +12,32 @@ public class Drag_Tool : MonoBehaviour
 	public float maxHorizontalDrag;
 	public float minHorizontalDrag;
 	
-	private Transform thisTransform;
-	private Vector3 screenPoint;
-	private Vector3 offset;
-	private Vector3 originalPosition;
-	private float angleOffset;
-	private bool isReady;
-	private bool isActivated;
+	Transform thisTransform;
+	Vector3 screenPoint;
+	Vector3 offset;
+	Vector3 originalPosition;
+	Quaternion originalRotation;
+	float angleOffset;
+	bool isReady;
+	bool isActivated;
 	[System.NonSerialized]
 	public bool isDragging; 
+
+	void OnEnable()			
+	{
+		Messenger.AddListener("reset", OnReset);			// Register to the reset event on enable
+	}
 	
+	void OnDisable()
+	{
+		Messenger.RemoveListener("reset", OnReset);			// Always make sure to unregister the event on disable
+	}
 	
 	void Start()
 	{
 		thisTransform = transform;
 		originalPosition = thisTransform.position;
+		originalRotation = thisTransform.rotation;
 		// Wait 2 seconds before doing anything
 		Invoke("SetIsReady",2f);
 	}
@@ -93,6 +104,12 @@ public class Drag_Tool : MonoBehaviour
 			
 			thisTransform.position = newPosition;
 		}
+	}
+
+	void OnReset()
+	{
+		thisTransform.position = originalPosition;
+		thisTransform.rotation = originalRotation;
 	}
 
 }

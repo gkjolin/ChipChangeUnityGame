@@ -19,9 +19,11 @@ public class Chip_Main : MonoBehaviour {
 	Transform sideCheckLeft;
 	Transform sideCheckRight;
 	Transform topCheck;
+	Transform colTransform;
 	RaycastHit2D groundLineCast;
 	bool isReady;
 	bool isGrounded;
+	bool hitOtherChip;
 	
 	void OnEnable()			
     {
@@ -125,7 +127,6 @@ public class Chip_Main : MonoBehaviour {
 		if (Mathf.Abs (rb2D.angularVelocity) > maxAngularVelocity)
 			rb2D.angularVelocity = Mathf.Clamp(rb2D.angularVelocity,-maxAngularVelocity,maxAngularVelocity);
 	}
-
 	
 	bool IsMovingSlowly()
 	{
@@ -136,12 +137,38 @@ public class Chip_Main : MonoBehaviour {
 		else return false;
 	}
 
+	void ChangeDirections()
+	{
+		Vector3 newLocalScale = new Vector3(thisTransform.localScale.x * -1, thisTransform.localScale.y, thisTransform.localScale.z);
+		thisTransform.localScale = newLocalScale;
+		moveSpeed = moveSpeed * -1;
+		flipSpeed = flipSpeed * -1;
+	}
+
+	void ChangeDirections(int direction)			// Called by Trigger_TurnAround when we are switching directions
+	{
+		if (direction == 1)		// Move Right and Flip Right
+		{
+			Vector3 newLocalScale = new Vector3(Mathf.Abs (thisTransform.localScale.x), thisTransform.localScale.y, thisTransform.localScale.z);
+			thisTransform.localScale = newLocalScale;
+			moveSpeed = Mathf.Abs (moveSpeed);
+			flipSpeed = Mathf.Abs (flipSpeed);
+		}
+		else if (direction == -1) // Move Left and Flip Left
+		{
+			Vector3 newLocalScale = new Vector3(Mathf.Abs (thisTransform.localScale.x) * -1, thisTransform.localScale.y, thisTransform.localScale.z);
+			thisTransform.localScale = newLocalScale;
+			moveSpeed = Mathf.Abs (moveSpeed) * -1;
+			flipSpeed = Mathf.Abs (flipSpeed) * -1;
+		}
+	}
 	
 	void DeathTrigger()		// Activated by Death Triggers
 	{
 		// Instantiate death particle prefab
 		Instantiate ( particleDeath, thisTransform.position, Quaternion.identity);
 		thisTransform.localEulerAngles = Vector3.zero;
+		ChangeDirections(1);
 		// Disable this gameObject
 		chipPool.ReleaseInstance(thisTransform);
 	}
@@ -152,7 +179,22 @@ public class Chip_Main : MonoBehaviour {
 		thisTransform.localEulerAngles = Vector3.zero;
 		chipPool.ReleaseInstance(thisTransform);
 	}
-	
+
+	void OnCollisionEnter2D (Collision2D col)
+	{
+		if (col.gameObject.layer == 13 && !hitOtherChip)
+		{
+			colTransform = col.gameObject.transform;
+			if (colTransform.localScale.x > 0 && thisTransform.localScale.x < 0
+			    || colTransform.localScale.x < 0 && thisTransform.localScale.x > 0)
+				ChangeDirections();
+		}
+	}
+
+	void ResetHitOtherChip()
+	{
+		hitOtherChip = false;
+	}
 	void OnReset()
 	{
 		DeathTrigger();	

@@ -68,7 +68,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8177cc3ded5264f1b8f1c23a4ce448e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shape: {fileID: 100000, guid: 6c59dea816984429db8607da497802ff, type: 2}
+  prefab: {fileID: 100000, guid: 6c59dea816984429db8607da497802ff, type: 2}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -80,13 +80,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 321ad1011159d47b4aebb08ac2ef7d86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rotateInsteadOfDrag: 0
-  onlyDragVertical: 0
-  onlyDragHorizontal: 0
-  maxVerticalDrag: 0
-  minVerticalDrag: 0
-  maxHorizontalDrag: 0
-  minHorizontalDrag: 0
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
