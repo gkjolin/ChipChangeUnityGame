@@ -41,7 +41,12 @@ public class Text_Typewriter : MonoBehaviour {
 	{
 		if (renderer.isVisible) ShowText(textToShowOnStart, startDelaySecs);				// If this gameobject is visible by a camera, show it
 	}
-	
+
+	public void ShowText ()									// Show text no params will use TextToShow property with 0 seconds delay
+	{
+		print("sdsd");
+		ShowText (TextToShow,0f);
+	}
 
 	public void ShowText (string text, float delaySecs)
 	{
@@ -65,9 +70,15 @@ public class Text_Typewriter : MonoBehaviour {
 		textMesh.text = textBuilder.ToString();
 		currentChar -= 1;
 	}
-	
+
+	public void RemoveText ()			// multiple RemoveText methods so the bool parameter is optional
+	{
+		RemoveText(false);
+	}
+
 	public void RemoveText (bool showOnComplete)
 	{
+		CancelInvoke("ShowTextRepeater");
 		showOnRemoveComplete = showOnComplete;
 		if (textMesh.text.Length == 0) return;			// No text is showing, escape
 		currentChar = TextToShow.Length;

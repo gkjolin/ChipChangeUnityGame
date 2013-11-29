@@ -48,7 +48,7 @@ public class Tracker_Finish : MonoBehaviour {
 		if (col.gameObject.CompareTag("Chip"))
 		{
 			isActivated = true;
-			Invoke("ResetIsActivated", 0.5f);
+			Invoke("ResetIsActivated", 0.1f);
 			// Tell chip to despawn
 			col.gameObject.SendMessage("FinishedDespawn",SendMessageOptions.DontRequireReceiver);
 			// Reduce chipsNeeded count by 1
@@ -56,8 +56,6 @@ public class Tracker_Finish : MonoBehaviour {
 			if (chipsCount == 0)
 			{
 				Messenger.Invoke("levelComplete");				// tell the world the level is complete
-				textEffect.TextToShow = "level complete";
-				textEffect.RemoveText (true);
 			}
 			else
 			{
@@ -72,6 +70,11 @@ public class Tracker_Finish : MonoBehaviour {
 		isActivated = false;
 	}
 
+	void ResetChipCountText()				// Used after level complete once we are to the new level
+	{
+		textEffect.TextToShow = "need " + chipsCount + " more";
+	}
+
 	void OnReset()
 	{
 		chipsCount = chipsNeeded;
@@ -81,10 +84,18 @@ public class Tracker_Finish : MonoBehaviour {
 	
 	void OnLevelComplete()
 	{
+		textEffect.TextToShow = "level complete";
+		textEffect.RemoveText (true);
+		textEffect.Invoke("RemoveText",3f);
+		chipsCount = chipsNeeded;
+		Invoke("ResetChipCountText",6.5f);
+		textEffect.Invoke("ShowText",7f);
+
 		currentLevelInt += 1;
 		// move camera (delayed) to next level position
 		LeanTween.move( Camera.main.gameObject, cameraPositionsArray[currentLevelInt].position, 
 			4f, new object[]{ "delay", cameraMoveDelaySecs, "ease", LeanTweenType.easeInOutSine});
-		Invoke("OnReset",6f);
 	}
+
+
 }
