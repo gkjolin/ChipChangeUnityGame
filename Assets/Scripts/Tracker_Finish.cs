@@ -19,45 +19,36 @@ public class Tracker_Finish : MonoBehaviour {
     {
         Messenger.AddListener("reset", OnReset);			// Register to the reset event on enable
 		Messenger.AddListener("levelComplete", OnLevelComplete);			
-
     }
 	
 	void OnDisable()
     {
         Messenger.RemoveListener("reset", OnReset);			// Always make sure to unregister the event on disable
-		Messenger.RemoveListener("levelComplete", OnLevelComplete);			
-
+		Messenger.RemoveListener("levelComplete", OnLevelComplete);	
     }
 	
 	void Start () 
 	{
 		textEffect = GetComponent<Text_Typewriter>();
 		chipsCount = chipsNeeded;
-		textEffect.ShowText ("need " + chipsCount + " more");
+		textEffect.ShowText ("need " + chipsCount + " more", 0f);
 		// make an array to hold the cameraPositions transform. Will use to move camera to next level
 		cameraPositionsArray = new Transform[cameraPositionsParent.childCount];
 		for (var i=0; i < cameraPositionsParent.childCount; i++){
 			cameraPositionsArray[i] = cameraPositionsParent.GetChild(i);
 		}
-		if (goToLevel != 0) LeanTween.move( Camera.main.gameObject, cameraPositionsArray[goToLevel].position, 4f, new object[]{ "ease",LeanTweenType.easeInOutSine});
+		Camera.main.transform.position = cameraPositionsArray[goToLevel].position;
 
-	}
-	
-	void UpdateText()
-	{
-		textEffect.ShowText("need " + chipsCount + " more");
-	}
-	
-	void MoveCamera (int level, float delaySecs)
-	// Moves the camera to a new level position
-	{
 	}
 	
 	void OnTriggerEnter2D (Collider2D col) 
 	{
-		
+		if (isActivated) return;
+
 		if (col.gameObject.CompareTag("Chip"))
 		{
+			isActivated = true;
+			Invoke("ResetIsActivated", 0.5f);
 			// Tell chip to despawn
 			col.gameObject.SendMessage("FinishedDespawn",SendMessageOptions.DontRequireReceiver);
 			// Reduce chipsNeeded count by 1
@@ -75,11 +66,17 @@ public class Tracker_Finish : MonoBehaviour {
 			}
 		}
 	}
-	
+
+	void ResetIsActivated()
+	{
+		isActivated = false;
+	}
+
 	void OnReset()
 	{
 		chipsCount = chipsNeeded;
 		textEffect.TextToShow = "need " + chipsCount + " more";
+		textEffect.RemoveText (true);
 	}
 	
 	void OnLevelComplete()
@@ -88,5 +85,6 @@ public class Tracker_Finish : MonoBehaviour {
 		// move camera (delayed) to next level position
 		LeanTween.move( Camera.main.gameObject, cameraPositionsArray[currentLevelInt].position, 
 			4f, new object[]{ "delay", cameraMoveDelaySecs, "ease", LeanTweenType.easeInOutSine});
+		Invoke("OnReset",6f);
 	}
 }

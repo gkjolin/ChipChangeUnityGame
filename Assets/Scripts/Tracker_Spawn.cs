@@ -5,7 +5,7 @@ using System.Linq;
 public class Tracker_Spawn: MonoBehaviour {
 	
 	Transform[] childrenArray;
-	TextMesh spawnCountText;
+	Text_Typewriter textEffect;
 	int totalSpawnCount;
 	int currentSpawnCount;
 	Vector3 spawnerMovePosition;
@@ -14,12 +14,14 @@ public class Tracker_Spawn: MonoBehaviour {
     {
         Messenger.AddListener("reset", OnReset);			// Register to the reset event on enable
 		Messenger.AddListener("chipSpawned", OnChipSpawned);
+		Messenger.AddListener ("levelComplete", OnLevelComplete);
     }
 	
 	void OnDisable()
     {
         Messenger.RemoveListener("reset", OnReset);			// Always make sure to unregister the event on disable
 		Messenger.RemoveListener("chipSpawned", OnChipSpawned);
+		Messenger.RemoveListener ("levelComplete", OnLevelComplete);
     }
 	
 	void Start () 
@@ -35,7 +37,7 @@ public class Tracker_Spawn: MonoBehaviour {
 		}
 		
 		// Get the text mesh of this gameobject so we can update the score
-		spawnCountText = GetComponent<TextMesh>();
+		textEffect = GetComponent<Text_Typewriter>();
 		// Give unity a bit of time to setup (usually a good idea)
 		Invoke("Setup",1f);
 	}
@@ -46,7 +48,7 @@ public class Tracker_Spawn: MonoBehaviour {
 		totalSpawnCount = childrenArray.Length;
 		currentSpawnCount = totalSpawnCount;
 		// Setup the spawn count text
-		spawnCountText.text = "x" + (currentSpawnCount - 1);
+		textEffect.ShowText("x" + (currentSpawnCount - 1), 0f);
 		// Setup the position where spawn shapes will slide into (they start offscreen)
 		spawnerMovePosition = new Vector3 (childrenArray[0].localPosition.x + 1.5f, childrenArray[0].localPosition.y, childrenArray[0].localPosition.z);
 		// Move the first child spawn shape into position
@@ -72,8 +74,11 @@ public class Tracker_Spawn: MonoBehaviour {
 			MoveChipSpawnerToScreen(spawnerToMove);
 		}
 		if (currentSpawnCount >= 1)
+		{
 			// update spawn count text
-			spawnCountText.text = "x" + (currentSpawnCount - 1);
+			textEffect.TextToShow = "x" + (currentSpawnCount - 1);
+			textEffect.RemoveText(true);
+		}
 	}
 	
 	void OnReset()
@@ -85,6 +90,13 @@ public class Tracker_Spawn: MonoBehaviour {
 		}
 		// Reset spawn count and text	
 		currentSpawnCount = totalSpawnCount;
-		spawnCountText.text = "x" + (currentSpawnCount - 1);
+		textEffect.TextToShow = "x" + (currentSpawnCount - 1);
+		textEffect.RemoveText (true);
+
+	}
+
+	void OnLevelComplete()
+	{
+		Invoke("OnReset",6f);
 	}
 }
