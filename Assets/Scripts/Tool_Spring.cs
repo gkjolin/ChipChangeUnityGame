@@ -16,9 +16,8 @@ public class Tool_Spring : MonoBehaviour {
 		particlePool = GameObjectPool.GetPool("SpringParticle_Pool");
 	}
 
-	void OnCollisionEnter2D (Collision2D col) 
+	void OnCollisionEnter2D (Collision2D col)
 	{
-		print("enter");
 		if (isActivated) return;
 		if (col.gameObject.layer == 13)
 		{
@@ -26,10 +25,10 @@ public class Tool_Spring : MonoBehaviour {
 			Invoke("ResetIsActivated", 0.1f);
 
 			colTrans = col.transform;
-			Vector2 colTransUp = col.transform.up;
-			colTrans.rigidbody2D.velocity = (force * transform.parent.up);
-	//		colTrans.rigidbody2D.AddForce(force * colTransUp);
-			print(force * transform.parent.up);
+			// This objs parent has the rotation info. Set the chip's velocity to match the angle of this spring * force
+			colTrans.rigidbody2D.velocity = (force * transform.parent.up);		
+
+			// Spawn a particle effect at the contact point.
 			particle = particlePool.GetInstance(col.contacts[0].point);
 			particle.rotation = Quaternion.Euler(-90,0,transform.localEulerAngles.z);
 		}

@@ -6,8 +6,6 @@ public class Tracker_Spawn: MonoBehaviour {
 	
 	Transform[] childrenArray;
 	Text_Typewriter textEffect;
-	int totalSpawnCount;
-	int currentSpawnCount;
 	Vector3 spawnerMovePosition;
 	
 	void OnEnable()			
@@ -29,7 +27,7 @@ public class Tracker_Spawn: MonoBehaviour {
 		// Linq statement that selects all the children of this gameobject *Oops LINQ doesnt work in flash which im going to build to
 		//childrenArray = GetComponentsInChildren<Transform>().Except(new [] { transform }).Select(t=>t).ToArray();
 		
-		// Make an array of Transforms of this gameobjects children
+		// Make an array of Transforms of this gameobjects children, which are all the chip spawners
 		childrenArray = new Transform[transform.childCount];
 		// add each child to the array
 		for (var i=0; i < transform.childCount; i++){
@@ -44,11 +42,8 @@ public class Tracker_Spawn: MonoBehaviour {
 	
 	void Setup()
 	{
-		// Get the number of children of this gameobject
-		totalSpawnCount = childrenArray.Length;
-		currentSpawnCount = totalSpawnCount;
 		// Setup the spawn count text
-		if (_Manager.currentLevel != 0) textEffect.ShowText("x" + (currentSpawnCount - 1));
+		if (_Manager.currentLevel != 0) textEffect.ShowText("x" + (_Manager.currentSpawnChipCount - 1));
 		// Setup the position where Chip_Spawner will slide into (they start offscreen)
 		spawnerMovePosition = new Vector3 (childrenArray[0].localPosition.x + 1.5f, childrenArray[0].localPosition.y, childrenArray[0].localPosition.z);
 		// Move the first child spawn shape into position
@@ -64,19 +59,19 @@ public class Tracker_Spawn: MonoBehaviour {
 	{
 		// This method is called by the Chip_Spawner when they spawn a chip
 		// Reduce our spawn count by 1.
-		if (currentSpawnCount != 0)
-			currentSpawnCount -= 1;
+		if (_Manager.currentSpawnChipCount != 0)
+			_Manager.currentSpawnChipCount -= 1;
 		// figure out which child we need to move in next.
-		int spawnerToMove = childrenArray.Length - currentSpawnCount;
+		int spawnerToMove = childrenArray.Length - _Manager.currentSpawnChipCount;
 		// move em in (making sure the spawnerToMove is within the childrenArray size)
 		if (spawnerToMove < childrenArray.Length)
 		{
 			MoveChipSpawnerToScreen(spawnerToMove);
 		}
-		if (currentSpawnCount >= 1)
+		if (_Manager.currentSpawnChipCount >= 1)
 		{
 			// update spawn count text
-			textEffect.TextToShow = "x" + (currentSpawnCount - 1);
+			textEffect.TextToShow = "x" + (_Manager.currentSpawnChipCount - 1);
 			textEffect.RemoveText(true);
 		}
 	}
@@ -84,26 +79,26 @@ public class Tracker_Spawn: MonoBehaviour {
 	void OnReset()
 	{
 		// Bring a new chip spawner on screen if the current spawn count is zero
-		if (currentSpawnCount <= 0)
+		if (_Manager.currentSpawnChipCount <= 0)
 		{
 			MoveChipSpawnerToScreen(0);
 		}
 		// Reset spawn count and text        
-		currentSpawnCount = totalSpawnCount;
-		textEffect.TextToShow = "x" + (currentSpawnCount - 1);
+
+		textEffect.TextToShow = "x" + (_Manager.currentSpawnChipCount - 1);
 		textEffect.RemoveText (true);
 		
 	}
 	
 	void OnLevelComplete()
 	{
-		if (currentSpawnCount <= 0)
+		if (_Manager.currentSpawnChipCount <= 0)
 		{
 			MoveChipSpawnerToScreen(0);
 		}
 		textEffect.RemoveText ();				// Clear text
-		currentSpawnCount = totalSpawnCount;			// Reset spawn count
-		textEffect.ShowTextDelayed ("x" + (currentSpawnCount - 1), 7f);			// Show text again in 7 seconds
+		_Manager.currentSpawnChipCount = _Manager.totalSpawnChipCount;			// Reset spawn count
+		textEffect.ShowTextDelayed ("x" + (_Manager.currentSpawnChipCount - 1), 7f);			// Show text again in 7 seconds
 
 	}
 }

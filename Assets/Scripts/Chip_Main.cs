@@ -27,7 +27,6 @@ public class Chip_Main : MonoBehaviour {
 	Vector2 topLCStopPos;
 	RaycastHit2D rayHit2D;
 	int lineCastHits;
-	bool hasHitSpring;
 	bool isReady;
 	bool isClicked;
 	
@@ -71,7 +70,7 @@ public class Chip_Main : MonoBehaviour {
 	{
 		if (Input.GetMouseButtonDown(0) && !isClicked)
 		{
-			Vector3 hitPointV3 = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,Input.mousePosition.y, 50f));
+			Vector3 hitPointV3 = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x,Input.mousePosition.y, Mathf.Abs (Camera.main.transform.position.z)));
 			// If it hit this gameObject change directions
 			Vector3 hitDistance = hitPointV3 - transform.position;
 			if(hitDistance.magnitude < 0.5f)
@@ -206,11 +205,6 @@ public class Chip_Main : MonoBehaviour {
 	{
 		thisTransform.localEulerAngles = Vector3.zero;
 		chipPool.ReleaseInstance(thisTransform);
-	}
-
-	void ResetHasHitSpring()
-	{
-		hasHitSpring = false;
 	}
 
 	void ResetIsClicked()
