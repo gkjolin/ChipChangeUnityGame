@@ -7,6 +7,7 @@ TagManager:
   - Spawn
   - Chip
   - Death
+  - Spring
   - 
   - 
   - 
@@ -15,7 +16,6 @@ TagManager:
   - 
   - 
   - 
-  - Shape
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX
@@ -31,7 +31,7 @@ TagManager:
   User Layer 11: Spawn
   User Layer 12: Particle
   User Layer 13: Chip
-  User Layer 14: 
+  User Layer 14: Tool
   User Layer 15: 
   User Layer 16: 
   User Layer 17: 

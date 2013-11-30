@@ -8,13 +8,13 @@ public class Chip_Main : MonoBehaviour {
 	public float maxAngularVelocity = 3f;
 	public float flipSpeed = 180f;
 	public Vector2 flipYForce = new Vector2(0f,10f);
-
-	public Transform particleDeath;
+	public float springForce = 1000f;
 	public LayerMask checkLayerMask;	// ground, obstacle and chip layers 
 	
 	Rigidbody2D rb2D;
 	BoxCollider2D boxCol2D;
 	GameObjectPool chipPool;
+	GameObjectPool deathParticlePool;
 	Transform thisTransform;
 	Transform colTransform;
 	Vector2 bottomLCStartPos;
@@ -27,6 +27,7 @@ public class Chip_Main : MonoBehaviour {
 	Vector2 topLCStopPos;
 	RaycastHit2D rayHit2D;
 	int lineCastHits;
+	bool hasHitSpring;
 	bool isReady;
 	bool isClicked;
 	
@@ -47,6 +48,7 @@ public class Chip_Main : MonoBehaviour {
 		rb2D = rigidbody2D;
 		boxCol2D = GetComponent<BoxCollider2D>();
 		thisTransform = transform;
+		deathParticlePool = GameObjectPool.GetPool("DeathParticle_Pool");
 		chipPool = GameObjectPool.GetPool("Chip_Pool");		//Setup the pool for spawning chips	
 		Invoke("SetIsReady",1f);
 	}
@@ -104,10 +106,16 @@ public class Chip_Main : MonoBehaviour {
 
 		//Debug.DrawLine(thisTransform.TransformPoint(bottomLCStartPos), bottomLCStopPos, Color.green, 2, false);
 
-		if (Physics2D.Linecast(thisTransform.TransformPoint(bottomLCStartPos), thisTransform.TransformPoint(bottomLCStopPos), checkLayerMask))
+		rayHit2D = Physics2D.Linecast(thisTransform.TransformPoint(bottomLCStartPos), thisTransform.TransformPoint(bottomLCStopPos), checkLayerMask);
+		if (rayHit2D)
 		{
+			if (rayHit2D.collider.CompareTag("Spring"))
+			{
+				print("groundhit");
+				rayHit2D.collider.transform.rotation = Quaternion.FromToRotation(Vector2.up, rayHit2D.normal);
+			}
 			// get the dot product of our transform compared to world transform right
-			if (Vector3.Dot(Vector3.right,transform.right) > 0.85f)	// If we are roughly upright, we will say we are grounded
+			else if (Vector3.Dot(Vector3.right,transform.right) > 0.85f)	// If we are roughly upright, we will say we are grounded
 			{
 				if (rb2D.velocity.x < maxXVelocity) Move();			// If we aren't traveling roughly full speed already, move
 				return;
@@ -183,10 +191,12 @@ public class Chip_Main : MonoBehaviour {
 
 	void DeathTrigger()		// Activated by Death Triggers, also called on Reset and LevelComplete
 	{
-		// Instantiate death particle prefab
-		Instantiate ( particleDeath, thisTransform.position, Quaternion.identity);
-		thisTransform.localEulerAngles = Vector3.zero;
-		ChangeDirections(1);
+		// spawn a death particle
+		deathParticlePool.GetInstance(thisTransform.position);
+		thisTransform.rotation = Quaternion.identity;				// Reset rotation, velocity, etc
+		rb2D.velocity = Vector2.zero;						
+		rb2D.angularVelocity = 0f;
+		ChangeDirections(1);										// Make sure chip is facing forwards
 		// Disable this gameObject
 		chipPool.ReleaseInstance(thisTransform);
 	}
@@ -196,6 +206,11 @@ public class Chip_Main : MonoBehaviour {
 	{
 		thisTransform.localEulerAngles = Vector3.zero;
 		chipPool.ReleaseInstance(thisTransform);
+	}
+
+	void ResetHasHitSpring()
+	{
+		hasHitSpring = false;
 	}
 
 	void ResetIsClicked()

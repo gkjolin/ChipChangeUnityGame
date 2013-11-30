@@ -8,14 +8,20 @@ _created for github game-off-2013 by Travis Irby_
 ### Software
 
 - Unity 4.31, using the new 2D sprites and physics.
-- LeanTween - tweening engine https://github.com/dentedpixel/LeanTween
-- GameObjectPool - pooling system https://gist.github.com/nickgravelyn/4385548
-- CSharpMessenger - event system http://wiki.unity3d.com/index.php?title=CSharpMessenger
+- LeanTween - tweening engine -   https://github.com/dentedpixel/LeanTween
+- GameObjectPool - pooling system -   https://gist.github.com/nickgravelyn/4385548
+- CSharpMessenger - event system -   http://wiki.unity3d.com/index.php?title=CSharpMessenger
 
 ### Sound
 
-- Music - "Hypnothis" by Kevin MacLeod (incompetech.com)
-- Effects - Bfxr - sound effect generator http://www.bfxr.net/
+- Music - "Hypnothis" by Kevin MacLeod incompetech.com
+- Spring Sound - http://www.freesound.org/people/m_O_m
+- Beep Sounds - www.freesound.org/people/steveygos93
+- Bfxr - sound effect generator bfxr.net
+
+### Etc
+
+- Font - Wellbutrin by Apostrophic Labs http://www.dafont.com/wellbutrin.font
 
 ### License
 

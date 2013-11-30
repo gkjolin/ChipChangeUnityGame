@@ -16,8 +16,6 @@ public class _Manager : MonoBehaviour {
 	[System.NonSerialized]
 	public static int score;
 
-
-
 	void Start () 
 	{
 		currentLevel = levelToStart;

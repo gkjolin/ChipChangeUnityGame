@@ -38,7 +38,7 @@ Rigidbody2D:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Mass: 2
-  m_LinearDrag: 0
+  m_LinearDrag: .100000001
   m_AngularDrag: 2
   m_GravityScale: 2
   m_FixedAngle: 0
@@ -87,10 +87,10 @@ MonoBehaviour:
   maxAngularVelocity: 150
   flipSpeed: 180
   flipYForce: {x: 0, y: 8}
-  particleDeath: {fileID: 400000, guid: c5b69f85c98ec4faa8e8d9e9a7be1639, type: 2}
+  springForce: 700
   checkLayerMask:
     serializedVersion: 2
-    m_Bits: 9728
+    m_Bits: 26112
 --- !u!212 &21200000
 SpriteRenderer:
   m_ObjectHideFlags: 1
