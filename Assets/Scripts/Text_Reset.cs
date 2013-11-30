@@ -12,6 +12,18 @@ public class Text_Reset : MonoBehaviour {
 		textEffect = GetComponent<Text_Typewriter>();
 	}
 
+	void OnEnable()			
+	{
+		Messenger.AddListener("reset", OnReset);			// Register to the reset event on enable
+		Messenger.AddListener("levelComplete", OnLevelComplete);			
+	}
+	
+	void OnDisable()
+	{
+		Messenger.RemoveListener("reset", OnReset);			// Always make sure to unregister the event on disable
+		Messenger.RemoveListener("levelComplete", OnLevelComplete);			
+	}
+	
 	void Setup()
 	{
 		if (_Manager.currentLevel != 0) textEffect.ShowText("Reset");
@@ -37,5 +49,16 @@ public class Text_Reset : MonoBehaviour {
 	void ResetIsActivated()
 	{
 		isActivated = false;	
+	}
+
+	void OnReset()
+	{
+		textEffect.RemoveText (true);
+	}
+	
+	void OnLevelComplete()
+	{
+		textEffect.RemoveText ();
+		textEffect.ShowTextDelayed ("Reset", 7f);
 	}
 }
