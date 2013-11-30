@@ -3,8 +3,20 @@ using System.Collections;
 
 public class Text_Reset : MonoBehaviour {
 	
-	private bool isActivated;
-	
+	Text_Typewriter textEffect;
+	bool isActivated;
+
+	void Start()
+	{
+		Invoke("Setup", 0.1f);
+		textEffect = GetComponent<Text_Typewriter>();
+	}
+
+	void Setup()
+	{
+		if (_Manager.currentLevel != 0) textEffect.ShowText("Reset");
+	}
+
 	void Update ()
 	{
 		if (isActivated) return;

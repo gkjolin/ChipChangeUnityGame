@@ -11,9 +11,9 @@ public class Text_Typewriter : MonoBehaviour {
 	public string textToShowOnStart;
 		
 	public string TextToShow {  get; set;}
-	
-	private const float ShowTextSpeed = 0.75f;
-	private bool showOnRemoveComplete;
+
+	const float ShowTextSpeed = 0.75f;
+	bool showOnRemoveComplete;
 	StringBuilder textBuilder = new StringBuilder();			// Will use a stringbuilder instead of concatenating strings to reduce garbage
 	TextMesh textMesh;					
 	int currentChar;					// A counter for which character we just displayed
@@ -78,6 +78,7 @@ public class Text_Typewriter : MonoBehaviour {
 		// add the next character to the string builder and update the textmesh
 		textBuilder.Append(TextToShow[TextToShow.Length-currentChar]);
 		textMesh.text = textBuilder.ToString();
+		_Manager.PlayBlip();
 		currentChar -= 1;
 	}
 
