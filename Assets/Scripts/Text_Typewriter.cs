@@ -11,7 +11,6 @@ public class Text_Typewriter : MonoBehaviour {
 	public string textToShowOnStart;
 		
 	public string TextToShow {  get; set;}
-//	private string textToShow;
 	
 	private const float ShowTextSpeed = 0.75f;
 	private bool showOnRemoveComplete;
@@ -39,22 +38,34 @@ public class Text_Typewriter : MonoBehaviour {
 
 	void ShowTextStart()
 	{
-		if (renderer.isVisible) ShowText(textToShowOnStart, startDelaySecs);				// If this gameobject is visible by a camera, show it
+		if (renderer.isVisible) ShowTextDelayed(textToShowOnStart, startDelaySecs);				// If this gameobject is visible by a camera, show it
 	}
 
 	public void ShowText ()									// Show text no params will use TextToShow property with 0 seconds delay
 	{
-		ShowText (TextToShow,0f);
+		ShowText (TextToShow);
 	}
 
-	public void ShowText (string text, float delaySecs)
+	public void ShowText (string text)
 	{
 		textBuilder.Length = 0;
 		TextToShow = text;						
-
 		currentChar = TextToShow.Length;
-		InvokeRepeating ("ShowTextRepeater",delaySecs+0.01f,0.075f);
+		InvokeRepeating ("ShowTextRepeater",0.01f,0.075f);
 	}
+
+	public void ShowTextDelayed (string text, float delaySecs)
+	{
+		StartCoroutine (ShowTextDelayedCoroutine (text, delaySecs));		// Start a coroutine so we can stall ShowText call for delaySecs 		
+	}
+
+	IEnumerator ShowTextDelayedCoroutine(string text, float delaySecs)
+	{
+		yield return new WaitForSeconds (delaySecs);
+		ShowText (text);
+	}
+
+
 	
 	void ShowTextRepeater () 
 	{
@@ -75,6 +86,11 @@ public class Text_Typewriter : MonoBehaviour {
 		RemoveText(false);
 	}
 
+	public void RemoveText (float delaySecs)
+	{
+		Invoke("RemoveText", delaySecs);
+	}
+
 	public void RemoveText (bool showOnComplete)
 	{
 		CancelInvoke("ShowTextRepeater");
@@ -92,7 +108,7 @@ public class Text_Typewriter : MonoBehaviour {
 			CancelInvoke("RemoveTextRepeater");
 			if (showOnRemoveComplete)
 			{
-				ShowText(TextToShow, 0f);
+				ShowText(TextToShow);
 			}
 			return;
 		}
@@ -113,7 +129,7 @@ public class Text_Typewriter : MonoBehaviour {
 	
 	void OnLevelComplete()
 	{
-		if (removeOnLevelComplete) RemoveText (false);
+		if (removeOnLevelComplete) RemoveText ();
 		if (showTextOnStart) Invoke("ShowTextStart", 8f);		// Call the showText again for instruction text on the next level
 
 	}

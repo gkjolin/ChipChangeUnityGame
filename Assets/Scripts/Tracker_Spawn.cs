@@ -12,15 +12,15 @@ public class Tracker_Spawn: MonoBehaviour {
 	
 	void OnEnable()			
     {
-        Messenger.AddListener("reset", OnReset);			// Register to the reset event on enable
-		Messenger.AddListener("chipSpawned", OnChipSpawned);
+        Messenger.AddListener ("reset", OnReset);			// Register to the reset event on enable
+		Messenger.AddListener ("chipSpawned", OnChipSpawned);
 		Messenger.AddListener ("levelComplete", OnLevelComplete);
     }
 	
 	void OnDisable()
     {
-        Messenger.RemoveListener("reset", OnReset);			// Always make sure to unregister the event on disable
-		Messenger.RemoveListener("chipSpawned", OnChipSpawned);
+        Messenger.RemoveListener ("reset", OnReset);			// Always make sure to unregister the event on disable
+		Messenger.RemoveListener ("chipSpawned", OnChipSpawned);
 		Messenger.RemoveListener ("levelComplete", OnLevelComplete);
     }
 	
@@ -48,8 +48,8 @@ public class Tracker_Spawn: MonoBehaviour {
 		totalSpawnCount = childrenArray.Length;
 		currentSpawnCount = totalSpawnCount;
 		// Setup the spawn count text
-		textEffect.ShowText("x" + (currentSpawnCount - 1), 0f);
-		// Setup the position where spawn shapes will slide into (they start offscreen)
+		if (_Manager.currentLevel != 0) textEffect.ShowText("x" + (currentSpawnCount - 1));
+		// Setup the position where Chip_Spawner will slide into (they start offscreen)
 		spawnerMovePosition = new Vector3 (childrenArray[0].localPosition.x + 1.5f, childrenArray[0].localPosition.y, childrenArray[0].localPosition.z);
 		// Move the first child spawn shape into position
 		MoveChipSpawnerToScreen(0);
@@ -88,16 +88,22 @@ public class Tracker_Spawn: MonoBehaviour {
 		{
 			MoveChipSpawnerToScreen(0);
 		}
-		// Reset spawn count and text	
+		// Reset spawn count and text        
 		currentSpawnCount = totalSpawnCount;
 		textEffect.TextToShow = "x" + (currentSpawnCount - 1);
 		textEffect.RemoveText (true);
-
+		
 	}
-
+	
 	void OnLevelComplete()
 	{
-		textEffect.RemoveText();
-		Invoke("OnReset",6f);
+		if (currentSpawnCount <= 0)
+		{
+			MoveChipSpawnerToScreen(0);
+		}
+		textEffect.RemoveText ();				// Clear text
+		currentSpawnCount = totalSpawnCount;			// Reset spawn count
+		textEffect.ShowTextDelayed ("x" + (currentSpawnCount - 1), 7f);			// Show text again in 7 seconds
+
 	}
 }

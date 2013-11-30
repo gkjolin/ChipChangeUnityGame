@@ -5,14 +5,12 @@ public class Tracker_Finish : MonoBehaviour {
 	
 	public Tracker_Spawn trackerSpawn;		// Need this to know how many chips we start with
 	public int chipsNeeded;					// number of chips to finish the level
-	public int goToLevel;
-	public float cameraMoveDelaySecs = 3f;
+
 	public Transform cameraPositionsParent;		// get an array of this gameobjects children to move camera to next level
 	
 	Transform[] cameraPositionsArray;
 	Text_Typewriter textEffect;					// use this class to show and remove our text
-	int currentLevelInt;					// Tracks what level we are on
-	int chipsCount;							// Tracks remaining chips needed for this level
+	int chipCount;								// Tracks remaining chips needed for this level
 	bool isActivated;
 	
 	void OnEnable()			
@@ -30,17 +28,15 @@ public class Tracker_Finish : MonoBehaviour {
 	void Start () 
 	{
 		textEffect = GetComponent<Text_Typewriter>();
-		chipsCount = chipsNeeded;
-		textEffect.ShowText ("need " + chipsCount + " more", 0f);
-		// make an array to hold the cameraPositions transform. Will use to move camera to next level
-		cameraPositionsArray = new Transform[cameraPositionsParent.childCount];
-		for (var i=0; i < cameraPositionsParent.childCount; i++){
-			cameraPositionsArray[i] = cameraPositionsParent.GetChild(i);
-		}
-		Camera.main.transform.position = cameraPositionsArray[goToLevel].position;
-
+		chipCount = chipsNeeded;
+		Invoke("Setup",0.1f);
 	}
-	
+
+	void Setup ()
+	{
+		if (_Manager.currentLevel != 0) textEffect.ShowTextDelayed("need " + chipCount + " more", 3f);		// Dont show this text if we are on the menu (level 0)
+	}
+
 	void OnTriggerEnter2D (Collider2D col) 
 	{
 		if (isActivated) return;
@@ -52,14 +48,14 @@ public class Tracker_Finish : MonoBehaviour {
 			// Tell chip to despawn
 			col.gameObject.SendMessage("FinishedDespawn",SendMessageOptions.DontRequireReceiver);
 			// Reduce chipsNeeded count by 1
-			chipsCount -= 1;
-			if (chipsCount == 0)
+			chipCount -= 1;
+			if (chipCount == 0)
 			{
 				Messenger.Invoke("levelComplete");				// tell the world the level is complete
 			}
 			else
 			{
-				textEffect.TextToShow = "need " + chipsCount + " more";
+				textEffect.TextToShow = "need " + chipCount + " more";
 				textEffect.RemoveText (true);
 			}
 		}
@@ -69,33 +65,24 @@ public class Tracker_Finish : MonoBehaviour {
 	{
 		isActivated = false;
 	}
-
-	void ResetChipCountText()				// Used after level complete once we are to the new level
-	{
-		textEffect.TextToShow = "need " + chipsCount + " more";
-	}
-
+	
 	void OnReset()
 	{
-		chipsCount = chipsNeeded;
-		textEffect.TextToShow = "need " + chipsCount + " more";
+		chipCount = chipsNeeded;
+		textEffect.TextToShow = "need " + chipCount + " more";
 		textEffect.RemoveText (true);
 	}
 	
 	void OnLevelComplete()
 	{
 		textEffect.TextToShow = "level complete";
-		textEffect.RemoveText (true);
-		textEffect.Invoke("RemoveText",3f);
-		chipsCount = chipsNeeded;
-		Invoke("ResetChipCountText",6.5f);
-		textEffect.Invoke("ShowText",7f);
-
-		currentLevelInt += 1;
-		// move camera (delayed) to next level position
-		LeanTween.move( Camera.main.gameObject, cameraPositionsArray[currentLevelInt].position, 
-			4f, new object[]{ "delay", cameraMoveDelaySecs, "ease", LeanTweenType.easeInOutSine});
+		textEffect.RemoveText (true);		// Remove current text and show "level complete"
+		textEffect.RemoveText (3f);			// Then in 3 seconds remove "level complete"
+		chipCount = chipsNeeded;			// Reset chipCount
+		textEffect.ShowTextDelayed ("need " + chipCount + " more", 7f);		// Show the text again in 7 seconds
 	}
+
+
 
 
 }

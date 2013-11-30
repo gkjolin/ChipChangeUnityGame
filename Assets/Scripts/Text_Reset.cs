@@ -5,7 +5,6 @@ public class Text_Reset : MonoBehaviour {
 	
 	private bool isActivated;
 	
-	// Update is called once per frame
 	void Update ()
 	{
 		if (isActivated) return;
@@ -14,7 +13,6 @@ public class Text_Reset : MonoBehaviour {
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 			RaycastHit2D hit = Physics2D.GetRayIntersection(ray,Mathf.Infinity);
 			
-			// If it hit this gameObject, we will activate the dragging
 			if(hit.collider != null && hit.collider.transform == transform)
 			{
 				isActivated = true;

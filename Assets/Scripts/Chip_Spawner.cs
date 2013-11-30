@@ -87,7 +87,8 @@ public class Chip_Spawner : MonoBehaviour {
 		chipPool.GetInstance(thisTransform.position);
 		// Announce that we have successfully spawned
 		Messenger.Invoke ("chipSpawned");
-
+		dragChip.hasDragged = false;
+		dragChip.isDragging = false;
 		// move this gameobject to it's original position off screen
 		thisTransform.localPosition = originalLocalPosition;
 		isActivated = false;
