@@ -14,6 +14,7 @@ public class Chip_Spawner : MonoBehaviour {
 	bool isReady;
 	bool isActivated;
 	bool isOnScreen;
+	bool isChangingLevels;
 	int spawnLayer;
 	GameObjectPool chipPool;
 	
@@ -46,6 +47,7 @@ public class Chip_Spawner : MonoBehaviour {
 	void SetIsReady()
 	{
 		isReady = true;
+		isChangingLevels = false;
 	}
 
 	void Update()
@@ -62,7 +64,7 @@ public class Chip_Spawner : MonoBehaviour {
 			RaycastHit2D hit = Physics2D.GetRayIntersection(ray,1000f,spawnLayer);
 			
 			// If the mouse position hits a spawn collider spawn our chip
-			if (hit.collider != null)
+			if (hit.collider != null && !isChangingLevels)
 			{
 				isActivated = true;
 				spawnPoint = ray.origin + (ray.direction * -Camera.main.gameObject.transform.position.z);
@@ -105,6 +107,8 @@ public class Chip_Spawner : MonoBehaviour {
 	// Resets this script completely for a new level or user reset
 	{
 		isActivated = false;
+		isChangingLevels = true;					// We wont spawn chips till the next level
+		Invoke ("SetIsReady", 7f);					// This will let us spawn chips in 7 seconds
 	}
 	
 	void OnBecameVisible()

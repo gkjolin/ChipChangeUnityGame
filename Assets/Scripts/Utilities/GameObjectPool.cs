@@ -70,7 +70,7 @@ public class GameObjectPool : MonoBehaviour
             //Debug.LogWarning(_poolName + " pool ran out of instances!", this);
             t = Instantiate(_prefab) as Transform;
         }
-
+		t.rotation = Quaternion.identity;
         t.position = position;
         InitializeInstance(t);
 
