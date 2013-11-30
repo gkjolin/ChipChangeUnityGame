@@ -5,9 +5,6 @@ public class Tool_Spring : MonoBehaviour {
 	
 	public Vector2 forceAmount = new Vector2(500f,2000f);
 	public GameObject particleSplash;
-		
-	void Start () {
-	}
 	
 	void OnCollisionEnter2D (Collision2D col) 
 	{
