@@ -8,9 +8,12 @@ public class Drag_Chip : MonoBehaviour
 	Vector3 offset;
 	float angleOffset;
 	bool isReady;
+
 	bool isActivated;
 	[System.NonSerialized]
-	public bool isDragging; 
+	public bool hasDragged;			
+	[System.NonSerialized]
+	public bool isDragging; 		// Accessed by Chip_Spawner
 	
 	void OnEnable()			
     {
@@ -41,7 +44,7 @@ public class Drag_Chip : MonoBehaviour
 		if(!isReady) return;
 		
 		// Cant use OnMouseDown() etc in flash. Would have been easier and avoided raycasting
-		if (Input.GetMouseButtonDown(0) && !isActivated)
+		if (Input.GetMouseButtonDown(0) && !isActivated && !hasDragged)
 		{
 			// Shoot a ray at mousePosition to see what 2d collider is hit
 			Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -59,36 +62,42 @@ public class Drag_Chip : MonoBehaviour
 		if (Input.GetMouseButtonUp(0) && isActivated)
 		{
 			isActivated = false;
+			hasDragged = true;
 			Invoke("ResetIsDragging",.1f);
 		}
 		
 		// If if the mouse is still clicked, drag this gameObject to its location
 		if (isActivated)
 		{
-			
 			isDragging = true;
 			Vector3 curScreenPoint = new Vector3(Input.mousePosition.x, Input.mousePosition.y, screenPoint.z);
 			Vector3 curPosition = Camera.main.ScreenToWorldPoint(curScreenPoint);
-			
 			thisTransform.position = curPosition;
 		}
 	}
 	
-	void ResetIsDragging()
+	void ResetIsDragging()		
 	{
 		isDragging = false;	
+	}
+
+	public void ResetHasDragged()			// Accessed by Chip_Spawner
+	{
+		hasDragged = false;	
 	}
 	
 	
 	// Resets this gameobject completely. For next level and user reset
 	void OnReset()
 	{
-		isActivated = false;	
+		isActivated = false;
+		hasDragged = false;
 	}
 	
 	void OnLevelComplete()
 	{
-		isActivated = false;	
+		isActivated = false;
+		hasDragged = false;
 	}
 
 }

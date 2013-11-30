@@ -2895,7 +2895,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 96878679}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -165.724426, y: 54.1989937, z: 0}
+  m_LocalPosition: {x: 100, y: 100, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 288141214}
@@ -6216,7 +6216,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 870456277}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -55.2292633, y: -6.30846643, z: -16.9621506}
+  m_LocalPosition: {x: -55.7104187, y: -6.30846643, z: -16.9621506}
   m_LocalScale: {x: 5, y: 5, z: 1}
   m_Children: []
   m_Father: {fileID: 280528469}
@@ -8015,7 +8015,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1238905175}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -29.6522903, y: -5.22344971, z: -21.6779785}
+  m_LocalPosition: {x: -30.0119705, y: -5.22344971, z: -21.6779785}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1167408806}
@@ -8030,11 +8030,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3379c64dce92d43c48603ed57fe9a82c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startDelaySecs: 5
+  startDelaySecs: 4
   removeOnReset: 0
   removeOnLevelComplete: 1
   showTextOnStart: 1
-  textToShowOnStart: A click can set them in the right direction...
+  textToShowOnStart: Sometimes they need a swift click in the @!^
 --- !u!102 &1238905178
 TextMesh:
   serializedVersion: 3
@@ -8049,7 +8049,7 @@ TextMesh:
   m_Anchor: 3
   m_Alignment: 0
   m_TabSize: 4
-  m_FontSize: 30
+  m_FontSize: 25
   m_FontStyle: 0
   m_RichText: 1
   m_Font: {fileID: 12800000, guid: e6e13fe438de1428ba8a14a4539cf74b, type: 3}
@@ -11753,7 +11753,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1814033721}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -29.6522903, y: -4.40730095, z: -21.6779785}
+  m_LocalPosition: {x: -30.0119705, y: -4.40730095, z: -21.6779785}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1167408806}

@@ -10,22 +10,24 @@ public class Chip_Main : MonoBehaviour {
 	public Vector2 flipYForce = new Vector2(0f,10f);
 
 	public Transform particleDeath;
-	public LayerMask groundAndObstacleLayerMask;
+	public LayerMask checkLayerMask;	// ground, obstacle and chip layers 
 	
 	Rigidbody2D rb2D;
+	BoxCollider2D boxCol2D;
 	GameObjectPool chipPool;
 	Transform thisTransform;
-	Transform groundCheck;
-	Transform sideCheckLeft;
-	Transform sideCheckRight;
-	Transform topCheck;
 	Transform colTransform;
-	RaycastHit2D[] lineCast = new RaycastHit2D[10];
-	Collider2D thisCol2D;
+	Vector2 bottomLCStartPos;
+	Vector2 sideLeftLCStartPos;
+	Vector2 sideRightLCStartPos;
+	Vector2 topLCStartPos;
+	Vector2 bottomLCStopPos;
+	Vector2 sideLeftLCStopPos;
+	Vector2 sideRightLCStopPos;
+	Vector2 topLCStopPos;
+	RaycastHit2D rayHit2D;
 	int lineCastHits;
-
 	bool isReady;
-	bool isGrounded;
 	bool isClicked;
 	
 	void OnEnable()			
@@ -43,18 +45,23 @@ public class Chip_Main : MonoBehaviour {
 	void Start()
 	{
 		rb2D = rigidbody2D;
-		thisCol2D = collider2D;
+		boxCol2D = GetComponent<BoxCollider2D>();
 		thisTransform = transform;
 		chipPool = GameObjectPool.GetPool("Chip_Pool");		//Setup the pool for spawning chips	
-		groundCheck = transform.Find("GroundCheck");
-		sideCheckLeft = transform.Find("SideCheckLeft");
-		sideCheckRight = transform.Find("SideCheckRight");
-		topCheck = transform.Find("TopCheck");
 		Invoke("SetIsReady",1f);
 	}
 	
 	void SetIsReady()
 	{
+		// Setup the positions of all the linecast checks to see if the chip is grounded or flipped over
+		bottomLCStartPos = new Vector2 (boxCol2D.center.x, (boxCol2D.center.y - (boxCol2D.size.y / 2)) - 0.05f);
+		bottomLCStopPos = new Vector2 (bottomLCStartPos.x, bottomLCStartPos.y - 0.5f);
+		topLCStartPos = new Vector2 (boxCol2D.center.x, (boxCol2D.center.y + (boxCol2D.size.y / 2)) + 0.05f);
+		topLCStopPos = new Vector2(topLCStartPos.x, topLCStartPos.y + 0.5f);
+		sideLeftLCStartPos = new Vector2((boxCol2D.center.x - (boxCol2D.size.x / 2)) - 0.05f, boxCol2D.center.y);
+		sideLeftLCStopPos = new Vector2(sideLeftLCStartPos.x - 0.5f, sideLeftLCStartPos.y);
+		sideRightLCStartPos = new Vector2((boxCol2D.center.x + (boxCol2D.size.x / 2)) + 0.05f, boxCol2D.center.y);
+		sideRightLCStopPos = new Vector2(sideRightLCStartPos.x + 0.5f, sideRightLCStartPos.y);
 		isReady = true;
 	}
 
@@ -88,40 +95,20 @@ public class Chip_Main : MonoBehaviour {
 		rb2D.AddForce(moveSpeed*transform.right);
 	}
 
-	int CheckLineCast ()
-	{
-		int i = 0;
-
-		while (i < lineCast.Length)
-		{
-			if (lineCast[i] != null)
-			{ 
-				if (lineCast[i].transform.collider2D != thisCol2D)
-				    return i;
-			}
-			i++;
-		}
-		return -1;
-	}
-
 	void CheckIfFlipped()
 	{
-		// I recommend changing LineCastAll to LineCastNonAlloc to avoid garbage. Unfortunately it doesnt work on flash platform
-		int lineCastInt;			// LineCastNonAlloc returns an int count of how many contacts. use it instead of linecast.Length in CheckLineCast()
-		isGrounded = false;
 
-		// Use a linecast to see if Ground Layer is directly below
-		// groundCheck, sideCheck, etc are child gameobjects of this gameobject
 
-		// so if you change to LineCastNonAlloc this next line is lineCast = Physics2D.LinecastNonAlloc(transform.position, topCheck.position,lineCast, groundAndObstacleLayerMask);
-		lineCast = Physics2D.LinecastAll(transform.position, groundCheck.position, groundAndObstacleLayerMask);
-		lineCastInt = CheckLineCast();
-		if (lineCastInt != -1)
+		// Use a linecast to see if Ground Layer is directly below 
+		// for even better performance use LinecastNonAlloc, but keep in mind it doesnt work on Flash build
+
+		//Debug.DrawLine(thisTransform.TransformPoint(bottomLCStartPos), bottomLCStopPos, Color.green, 2, false);
+
+		if (Physics2D.Linecast(thisTransform.TransformPoint(bottomLCStartPos), thisTransform.TransformPoint(bottomLCStopPos), checkLayerMask))
 		{
 			// get the dot product of our transform compared to world transform right
 			if (Vector3.Dot(Vector3.right,transform.right) > 0.85f)	// If we are roughly upright, we will say we are grounded
 			{
-				isGrounded = true;
 				if (rb2D.velocity.x < maxXVelocity) Move();			// If we aren't traveling roughly full speed already, move
 				return;
 			}
@@ -130,27 +117,24 @@ public class Chip_Main : MonoBehaviour {
 		if (!IsMovingSlowly()) return;
 
 		// Check left
-		lineCast = Physics2D.LinecastAll(transform.position, sideCheckLeft.position, groundAndObstacleLayerMask);
-		lineCastInt = CheckLineCast();
-		if (lineCastInt != -1 )
+		//Debug.DrawLine(thisTransform.TransformPoint(sideLeftLCStartPos), sideLeftLCStopPos, Color.green, 2, false);
+		if (Physics2D.Linecast(thisTransform.TransformPoint(sideLeftLCStartPos), thisTransform.TransformPoint(sideLeftLCStopPos), checkLayerMask))
 		{
 			rb2D.AddForce(flipYForce);
 			rb2D.AddTorque(-flipSpeed);
 			return;
 		}
-		// Check right
-		lineCast = Physics2D.LinecastAll(transform.position, sideCheckRight.position, groundAndObstacleLayerMask);
-		lineCastInt = CheckLineCast();
-		if (lineCastInt != -1)
+
+		//Debug.DrawLine(thisTransform.TransformPoint(sideRightLCStartPos), sideRightLCStopPos, Color.green, 2, false);
+		if (Physics2D.Linecast(thisTransform.TransformPoint(sideRightLCStartPos), thisTransform.TransformPoint(sideRightLCStopPos), checkLayerMask))
 		{
 			rb2D.AddForce(flipYForce);
 			rb2D.AddTorque(-flipSpeed);
 			return;
 		}
 		// Check upside down
-		lineCast = Physics2D.LinecastAll(transform.position, topCheck.position, groundAndObstacleLayerMask);
-		lineCastInt = CheckLineCast();
-		if (lineCastInt != -1)
+		//Debug.DrawLine(thisTransform.TransformPoint(topLCStartPos), topLCStopPos, Color.green, 2, false);
+		if (Physics2D.Linecast(thisTransform.TransformPoint(topLCStartPos), thisTransform.TransformPoint(topLCStopPos), checkLayerMask))
 		{
 			rb2D.AddForce(flipYForce);
 			rb2D.AddTorque(-flipSpeed);
@@ -197,7 +181,7 @@ public class Chip_Main : MonoBehaviour {
 		else return false;
 	}
 
-	void DeathTrigger()		// Activated by Death Triggers
+	void DeathTrigger()		// Activated by Death Triggers, also called on Reset and LevelComplete
 	{
 		// Instantiate death particle prefab
 		Instantiate ( particleDeath, thisTransform.position, Quaternion.identity);

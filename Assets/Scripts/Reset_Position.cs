@@ -11,6 +11,7 @@ public class Reset_Position : MonoBehaviour {
 	{
 		if (rigidbody2D != null) rb2D = rigidbody2D;
 		originalPosition = transform.position;
+		originalRotation = transform.rotation;
 	}
 
 	void OnEnable()			

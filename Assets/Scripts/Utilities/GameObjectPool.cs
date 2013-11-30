@@ -40,9 +40,21 @@ public class GameObjectPool : MonoBehaviour
         {
             var t = Instantiate(_prefab) as Transform;
             InitializeInstance(t);
-            ReleaseInstance(t);
+			DelayedRelease(t);
         }
+
     }
+
+	void DelayedRelease(Transform t)
+	{
+		StartCoroutine("DelayedReleaseRoutine",t);
+	}
+
+	IEnumerator DelayedReleaseRoutine(Transform t)
+	{
+		yield return new WaitForSeconds(1f);
+		ReleaseInstance(t);
+	}
 
     public Transform GetInstance(Vector3 position)
     {
