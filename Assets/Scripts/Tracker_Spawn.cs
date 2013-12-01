@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 
 public class Tracker_Spawn: MonoBehaviour {
-	
+
 	GameObject[] childrenArray;
 	Text_Typewriter textEffect;
 	Vector3 spawnerMovePosition;
@@ -37,7 +37,7 @@ public class Tracker_Spawn: MonoBehaviour {
 		// Get the text mesh of this gameobject so we can update the score
 		textEffect = GetComponent<Text_Typewriter>();
 		// Give unity a bit of time to setup (usually a good idea)
-		Invoke("Setup",1f);
+		Invoke("Setup",2f);
 	}
 	
 	void Setup()
@@ -45,7 +45,7 @@ public class Tracker_Spawn: MonoBehaviour {
 		// Setup the spawn count text
 		if (_Manager.currentLevel != 0) textEffect.ShowText("x" + (_Manager.currentSpawnChipCount - 1));
 		// Setup the position where Chip_Spawner will slide into (they start offscreen)
-		spawnerMovePosition = new Vector3 (childrenArray[0].transform.localPosition.x + 1.5f, 
+		spawnerMovePosition = new Vector3 (childrenArray[0].transform.localPosition.x + _Manager.chipSpawnTweenDist, 
 		                                   childrenArray[0].transform.localPosition.y, childrenArray[0].transform.localPosition.z);
 		// Move the first child spawn shape into position
 		MoveChipSpawnerToScreen(0);
@@ -54,6 +54,11 @@ public class Tracker_Spawn: MonoBehaviour {
 	void MoveChipSpawnerToScreen(int spawnerToMove)
 	{
 		LeanTween.moveLocal( childrenArray[spawnerToMove], spawnerMovePosition, .7f, new object[]{ "ease",LeanTweenType.easeOutSine});
+	}
+
+	void LevelCompleteUpdateText()
+	{
+		textEffect.ShowTextDelayed ("x" + (_Manager.totalSpawnChipCount - 1), 7f);			// Show text again in 7 seconds
 	}
 	
 	void OnChipSpawned () 
@@ -98,8 +103,7 @@ public class Tracker_Spawn: MonoBehaviour {
 			MoveChipSpawnerToScreen(0);
 		}
 		textEffect.RemoveText ();				// Clear text
-		_Manager.currentSpawnChipCount = _Manager.totalSpawnChipCount;			// Reset spawn count
-		textEffect.ShowTextDelayed ("x" + (_Manager.currentSpawnChipCount - 1), 7f);			// Show text again in 7 seconds
-
+		Invoke("LevelCompleteUpdateText", .1f);	
 	}
+
 }

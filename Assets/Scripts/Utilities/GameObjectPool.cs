@@ -52,7 +52,7 @@ public class GameObjectPool : MonoBehaviour
 
 	IEnumerator DelayedReleaseRoutine(Transform t)
 	{
-		yield return new WaitForSeconds(1f);
+		yield return new WaitForSeconds(.3f);
 		ReleaseInstance(t);
 	}
 

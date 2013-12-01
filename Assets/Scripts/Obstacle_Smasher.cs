@@ -4,13 +4,13 @@ using System.Collections;
 public class Obstacle_Smasher : MonoBehaviour {
 
 	public int thisLevel;
+	public float smashDistance = 3f;				// How far down it will smash
 
 	Vector3 moveTweenVector3;
 
 	void OnEnable()			
 	{
 		Messenger.AddListener("levelComplete", OnLevelComplete);
-		Invoke("MoveTween", 5f);		// Start the tween if the game starts on this level
 	}
 	
 	void OnDisable()
@@ -20,7 +20,8 @@ public class Obstacle_Smasher : MonoBehaviour {
 
 	void Start () 
 	{
-		moveTweenVector3 = new Vector3(transform.position.x,transform.position.y+3,transform.position.z);
+		moveTweenVector3 = new Vector3 (transform.position.x, transform.position.y + smashDistance, transform.position.z);
+		Invoke("MoveTween", 5f);		// Start the tween if the game starts on this level
 	}
 
 	void MoveTween () 

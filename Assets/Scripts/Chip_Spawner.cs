@@ -4,7 +4,7 @@ using System.Collections;
 public class Chip_Spawner : MonoBehaviour {
 
 	public GameObject prefab;
-	
+
 	Drag_Chip dragChip;
 	Transform thisTransform;
 	Transform chipSpawned;
@@ -35,7 +35,8 @@ public class Chip_Spawner : MonoBehaviour {
 		thisTransform = transform;
 		chipPool = GameObjectPool.GetPool("Chip_Pool");		//Setup the pool for spawning chips	
 		originalLocalPosition = thisTransform.localPosition;
-		onScreenPosition = new Vector3 (thisTransform.localPosition.x+1.5f,thisTransform.localPosition.y,thisTransform.localPosition.z);
+		onScreenPosition = new Vector3 (thisTransform.localPosition.x + _Manager.chipSpawnTweenDist, 
+		                                thisTransform.localPosition.y, thisTransform.localPosition.z);
 		// reference Drag_Chip script, will need it to check if we are dragging this shape
 		dragChip = GetComponent<Drag_Chip>();
 		// setup a bitmask of the spawnlayer for a raycast check (can only spawn while within a spawn collider)
@@ -67,8 +68,8 @@ public class Chip_Spawner : MonoBehaviour {
 			if (hit.collider != null && !isChangingLevels)
 			{
 				isActivated = true;
-				spawnPoint = ray.origin + (ray.direction * -Camera.main.gameObject.transform.position.z);
-		    	spawnPoint = new Vector3(spawnPoint.x,spawnPoint.y,0f);
+				spawnPoint = ray.origin + (ray.direction * - Camera.main.gameObject.transform.position.z);
+		    	spawnPoint = new Vector3 (spawnPoint.x, spawnPoint.y, 0f);
 			
 				// transition tween moving this spawner to spawn position of chip gameobject 
 				LeanTween.move( gameObject, spawnPoint, .7f, new object[]{ "ease",LeanTweenType.easeInSine});

@@ -15,8 +15,9 @@ public class _Manager : MonoBehaviour {
 	public static AudioSource audioBlip3;	
 	public static int chipsNeeded;						// How many chips are required to complete the level
 	public static int currentChipsNeededCount;			// How many remaining chips are required to complete the level
-	public static int totalSpawnChipCount;				// How many chips are really allowed to spawn in this level?
-	public static int currentSpawnChipCount;			// How many chips are left to spawn in this level?
+	public static int totalSpawnChipCount;				// How many chips are really allowed to spawn in this level
+	public static int currentSpawnChipCount;			// How many chips are left to spawn in this level
+	public static float chipSpawnTweenDist = 7.5f;				// How far the chip spawners shift to move onscreen.
 	public static int currentLevel;						// What level number are we on? starting with 0
 	public static int score;							// overall score .... not implemented
 
@@ -85,7 +86,7 @@ public class _Manager : MonoBehaviour {
 
 		// set the chipsNeeded and totalSpawnChipCount for the next level
 		chipsNeeded = chipsNeededPerLevel [currentLevel];
-		totalSpawnChipCount = chipsNeededPerLevel [currentLevel];
+		totalSpawnChipCount = totalSpawnsPerLevel [currentLevel];
 
 	}
 }
