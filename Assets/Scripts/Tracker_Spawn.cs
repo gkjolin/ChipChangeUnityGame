@@ -4,7 +4,7 @@ using System.Linq;
 
 public class Tracker_Spawn: MonoBehaviour {
 	
-	Transform[] childrenArray;
+	GameObject[] childrenArray;
 	Text_Typewriter textEffect;
 	Vector3 spawnerMovePosition;
 	
@@ -28,10 +28,10 @@ public class Tracker_Spawn: MonoBehaviour {
 		//childrenArray = GetComponentsInChildren<Transform>().Except(new [] { transform }).Select(t=>t).ToArray();
 		
 		// Make an array of Transforms of this gameobjects children, which are all the chip spawners
-		childrenArray = new Transform[transform.childCount];
+		childrenArray = new GameObject[transform.childCount];
 		// add each child to the array
 		for (var i=0; i < transform.childCount; i++){
-			childrenArray[i] = transform.GetChild(i);
+			childrenArray[i] = transform.GetChild(i).gameObject;
 		}
 		
 		// Get the text mesh of this gameobject so we can update the score
@@ -45,14 +45,15 @@ public class Tracker_Spawn: MonoBehaviour {
 		// Setup the spawn count text
 		if (_Manager.currentLevel != 0) textEffect.ShowText("x" + (_Manager.currentSpawnChipCount - 1));
 		// Setup the position where Chip_Spawner will slide into (they start offscreen)
-		spawnerMovePosition = new Vector3 (childrenArray[0].localPosition.x + 1.5f, childrenArray[0].localPosition.y, childrenArray[0].localPosition.z);
+		spawnerMovePosition = new Vector3 (childrenArray[0].transform.localPosition.x + 1.5f, 
+		                                   childrenArray[0].transform.localPosition.y, childrenArray[0].transform.localPosition.z);
 		// Move the first child spawn shape into position
 		MoveChipSpawnerToScreen(0);
 	}
 	
 	void MoveChipSpawnerToScreen(int spawnerToMove)
 	{
-		LeanTween.moveLocal( childrenArray[spawnerToMove].gameObject, spawnerMovePosition, .7f, new object[]{ "ease",LeanTweenType.easeOutSine});
+		LeanTween.moveLocal( childrenArray[spawnerToMove], spawnerMovePosition, .7f, new object[]{ "ease",LeanTweenType.easeOutSine});
 	}
 	
 	void OnChipSpawned () 

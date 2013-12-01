@@ -31,19 +31,13 @@ public class Chip_Main : MonoBehaviour {
 	int lineCastHits;
 	bool isReady;
 	bool isClicked;
-	
-	void OnEnable()			
-    {
-        Messenger.AddListener("reset", OnReset);			// Register to the reset event on enable
-		Messenger.AddListener("levelComplete", OnLevelComplete);			
-    }
-	
-	void OnDisable()
-    {
-        Messenger.RemoveListener("reset", OnReset);			// Always make sure to unregister the event on disable
-		Messenger.RemoveListener("levelComplete", OnLevelComplete);			
-    }
-	
+
+	void Awake()
+	{
+		Messenger.AddListener("reset", OnReset);
+		Messenger.AddListener("levelComplete", OnLevelComplete);
+	}
+
 	void Start()
 	{
 		rb2D = rigidbody2D;

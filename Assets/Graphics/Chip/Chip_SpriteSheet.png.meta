@@ -44,55 +44,55 @@ TextureImporter:
     - name: chip_4
       rect:
         serializedVersion: 2
-        x: 0
-        y: 280
-        width: 264
-        height: 232
+        x: 1
+        y: 271
+        width: 271
+        height: 241
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: chip_5
       rect:
         serializedVersion: 2
         x: 304
-        y: 296
-        width: 232
-        height: 216
+        y: 273
+        width: 248
+        height: 239
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: chip_1
       rect:
         serializedVersion: 2
-        x: 576
-        y: 304
-        width: 232
-        height: 208
+        x: 573
+        y: 288
+        width: 259
+        height: 224
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: chip_3
       rect:
         serializedVersion: 2
         x: 0
-        y: 16
-        width: 256
-        height: 224
+        y: 10
+        width: 269
+        height: 243
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: chip_2
       rect:
         serializedVersion: 2
         x: 296
-        y: 24
-        width: 248
-        height: 216
+        y: 11
+        width: 278
+        height: 241
       alignment: 0
       pivot: {x: .5, y: .5}
     - name: chip_0
       rect:
         serializedVersion: 2
         x: 584
-        y: 64
-        width: 224
-        height: 200
+        y: 48
+        width: 251
+        height: 218
       alignment: 0
       pivot: {x: .5, y: .5}
   spritePackingTag: Square
