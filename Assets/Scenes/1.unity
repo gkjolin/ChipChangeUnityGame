@@ -2170,7 +2170,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 177843370}
   m_Layer: 0
-  m_Name: Position_Level_8
+  m_Name: Position_Level_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3888,7 +3888,6 @@ Transform:
   - {fileID: 1812896315}
   - {fileID: 1472479210}
   - {fileID: 2060998893}
-  - {fileID: 2083343916}
   m_Father: {fileID: 0}
 --- !u!1 &587657193
 GameObject:
@@ -5903,7 +5902,7 @@ AudioSource:
   serializedVersion: 3
   m_audioClip: {fileID: 8300000, guid: 01fe9d489e0534a0c903eedf120e2c31, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: .800000012
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -10740,7 +10739,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 1189832930}
   m_Layer: 0
-  m_Name: Level_8
+  m_Name: Level_6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -16342,32 +16341,6 @@ Transform:
   - {fileID: 2456281}
   - {fileID: 1354732468}
   m_Father: {fileID: 2114618740}
---- !u!1 &2083343915
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 2083343916}
-  m_Layer: 0
-  m_Name: Level_5
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2083343916
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2083343915}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.18527317, y: .199630007, z: .100000001}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 577097920}
 --- !u!1 &2104632544
 GameObject:
   m_ObjectHideFlags: 0
