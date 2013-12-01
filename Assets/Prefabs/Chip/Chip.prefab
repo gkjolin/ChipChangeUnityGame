@@ -82,8 +82,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4d6068c670bf24d90917017e2334d19d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 25
-  maxXVelocity: 5
+  moveSpeed: 28
+  maxVelocityX: 5
+  maxVelocityXToMove: 5
   maxAngularVelocity: 150
   flipSpeed: 180
   flipYForce: {x: 0, y: 8}

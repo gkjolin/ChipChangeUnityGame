@@ -3,9 +3,11 @@ using System.Collections;
 
 public class Chip_Main : MonoBehaviour {
 	
-	public float moveSpeed = 25f;
-	public float maxXVelocity = 5f;
+	public float moveSpeed = 30f;
+	public float maxVelocityX = 25f;
+	public float maxVelocityXToMove = 5f;
 	public float maxAngularVelocity = 3f;
+
 	public float flipSpeed = 180f;
 	public Vector2 flipYForce = new Vector2(0f,10f);
 	public float springForce = 1000f;
@@ -56,13 +58,13 @@ public class Chip_Main : MonoBehaviour {
 	{
 		// Setup the positions of all the linecast checks to see if the chip is grounded or flipped over
 		bottomLCStartPos = new Vector2 (boxCol2D.center.x, (boxCol2D.center.y - (boxCol2D.size.y / 2)) - 0.05f);
-		bottomLCStopPos = new Vector2 (bottomLCStartPos.x, bottomLCStartPos.y - 0.5f);
+		bottomLCStopPos = new Vector2 (bottomLCStartPos.x, bottomLCStartPos.y - 0.75f);
 		topLCStartPos = new Vector2 (boxCol2D.center.x, (boxCol2D.center.y + (boxCol2D.size.y / 2)) + 0.05f);
-		topLCStopPos = new Vector2(topLCStartPos.x, topLCStartPos.y + 0.5f);
+		topLCStopPos = new Vector2(topLCStartPos.x, topLCStartPos.y + 0.75f);
 		sideLeftLCStartPos = new Vector2((boxCol2D.center.x - (boxCol2D.size.x / 2)) - 0.05f, boxCol2D.center.y);
-		sideLeftLCStopPos = new Vector2(sideLeftLCStartPos.x - 0.5f, sideLeftLCStartPos.y);
+		sideLeftLCStopPos = new Vector2(sideLeftLCStartPos.x - 0.75f, sideLeftLCStartPos.y);
 		sideRightLCStartPos = new Vector2((boxCol2D.center.x + (boxCol2D.size.x / 2)) + 0.05f, boxCol2D.center.y);
-		sideRightLCStopPos = new Vector2(sideRightLCStartPos.x + 0.5f, sideRightLCStartPos.y);
+		sideRightLCStopPos = new Vector2(sideRightLCStartPos.x + 0.75f, sideRightLCStartPos.y);
 		isReady = true;
 	}
 
@@ -87,7 +89,7 @@ public class Chip_Main : MonoBehaviour {
 		if(isReady)
 		{
 			CheckIfFlipped();
-			AngularVelocityLimitCheck();
+			VelocityLimitCheck();
 		}
 	}
 
@@ -110,13 +112,12 @@ public class Chip_Main : MonoBehaviour {
 		{
 			if (rayHit2D.collider.CompareTag("Spring"))
 			{
-				print("groundhit");
 				rayHit2D.collider.transform.rotation = Quaternion.FromToRotation(Vector2.up, rayHit2D.normal);
 			}
 			// get the dot product of our transform compared to world transform right
 			else if (Vector3.Dot(Vector3.right,transform.right) > 0.85f)	// If we are roughly upright, we will say we are grounded
 			{
-				if (rb2D.velocity.x < maxXVelocity) Move();			// If we aren't traveling roughly full speed already, move
+				if (rb2D.velocity.x < maxVelocityX) Move();			// If we aren't traveling roughly full speed already, move
 				return;
 			}
 		}
@@ -174,10 +175,16 @@ public class Chip_Main : MonoBehaviour {
 		}
 	}
 	
-	void AngularVelocityLimitCheck()
+	void VelocityLimitCheck()
 	{
 		if (Mathf.Abs (rb2D.angularVelocity) > maxAngularVelocity)
-			rb2D.angularVelocity = Mathf.Clamp(rb2D.angularVelocity,-maxAngularVelocity,maxAngularVelocity);
+			rb2D.angularVelocity = Mathf.Clamp (rb2D.angularVelocity, -maxAngularVelocity, maxAngularVelocity);
+		if (Mathf.Abs (rb2D.velocity.x) > maxVelocityX)
+		{
+			float velocityX = Mathf.Clamp (rb2D.velocity.x, -maxVelocityX, maxVelocityX);
+			Vector2 newVelocity = new Vector2 (velocityX, rb2D.velocity.y);
+			rb2D.velocity = newVelocity;
+		}
 	}
 	
 	bool IsMovingSlowly()

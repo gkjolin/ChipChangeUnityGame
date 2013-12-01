@@ -85,7 +85,7 @@ public class Tracker_Spawn: MonoBehaviour {
 		}
 		// Reset spawn count and text        
 
-		textEffect.TextToShow = "x" + (_Manager.currentSpawnChipCount - 1);
+		textEffect.TextToShow = "x" + (_Manager.totalSpawnChipCount - 1);
 		textEffect.RemoveText (true);
 		
 	}
