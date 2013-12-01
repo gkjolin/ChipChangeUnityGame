@@ -87,6 +87,7 @@ public class _Manager : MonoBehaviour {
 		// set the chipsNeeded and totalSpawnChipCount for the next level
 		chipsNeeded = chipsNeededPerLevel [currentLevel];
 		totalSpawnChipCount = totalSpawnsPerLevel [currentLevel];
+		currentSpawnChipCount = totalSpawnChipCount;
 
 	}
 }

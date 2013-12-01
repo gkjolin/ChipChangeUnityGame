@@ -19,19 +19,23 @@ public class Tool_Spring : MonoBehaviour {
 	void OnCollisionEnter2D (Collision2D col)
 	{
 		if (isActivated) return;
-		if (col.gameObject.layer == 13)
+		if (col.gameObject.layer == 13 && !isActivated)
 		{
 			isActivated = true;
-			Invoke("ResetIsActivated", 0.1f);
+			Invoke("ResetIsActivated", 0.25f);
 
 			colTrans = col.transform;
 			// This objs parent has the rotation info. Set the chip's velocity to match the angle of this spring * force
 			colTrans.rigidbody2D.angularVelocity = 0f;
 			Vector2 forceAngle = new Vector2(transform.parent.up.x*3f,transform.parent.up.y*0.4f);
-			colTrans.rigidbody2D.velocity = (force * forceAngle);	
+			Vector2 test = force * forceAngle;
+				print(test);
+
+			colTrans.rigidbody2D.velocity = (force * forceAngle);
+			print(force);
 			// Spawn a particle effect at the contact point.
 			particle = particlePool.GetInstance(col.contacts[0].point);
-			particle.rotation = Quaternion.Euler(-90,0,transform.localEulerAngles.z);
+			particle.rotation = Quaternion.Euler(-90,0,transform.parent.localEulerAngles.z);
 		}
 	}
 

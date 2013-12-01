@@ -78,7 +78,7 @@ public class Chip_Spawner : MonoBehaviour {
 			else
 			{
 				// Move the spawn shape back to its original position so the user can try and drag it again
-				LeanTween.moveLocal( gameObject, onScreenPosition, .7f, new object[]{ "ease",LeanTweenType.easeInSine});
+				LeanTween.moveLocal( gameObject, onScreenPosition, 0.7f, new object[]{ "ease",LeanTweenType.easeInSine});
 				dragChip.Invoke("ResetHasDragged", 0.71f);		// Once the tween is finished, activate the spawner again
 			}
 		}

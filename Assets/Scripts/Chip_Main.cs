@@ -10,7 +10,6 @@ public class Chip_Main : MonoBehaviour {
 
 	public float flipSpeed = 180f;
 	public Vector2 flipYForce = new Vector2(0f,10f);
-	public float springForce = 1000f;
 	public LayerMask checkLayerMask;	// ground, obstacle and chip layers 
 	
 	Rigidbody2D rb2D;
