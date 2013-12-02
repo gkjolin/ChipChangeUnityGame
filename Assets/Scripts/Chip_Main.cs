@@ -71,7 +71,7 @@ public class Chip_Main : MonoBehaviour {
 			if(hitDistance.magnitude < 0.5f)
 			{
 				isClicked = true;
-				Invoke("ResetIsClicked", 0.5f);
+				Invoke("ResetIsClicked", 0.1f);
 				ChangeDirections (2);
 			}
 		}

@@ -2152,7 +2152,6 @@ Transform:
   m_Children:
   - {fileID: 352210451}
   - {fileID: 685681970}
-  - {fileID: 1843901399}
   m_Father: {fileID: 577097920}
 --- !u!1 &147551837
 GameObject:
@@ -16694,7 +16693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   levelToStart: 7
-  chipsNeededPerLevel: 03000000030000000300000003000000030000000300000003000000000000000300000003000000
+  chipsNeededPerLevel: 03000000030000000300000003000000030000000300000003000000030000000300000003000000
   totalSpawnsPerLevel: 05000000050000000500000005000000050000000500000005000000050000000500000005000000
 --- !u!4 &1188359603
 Transform:
@@ -24098,117 +24097,6 @@ Renderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
---- !u!1 &1843901398
-GameObject:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  serializedVersion: 4
-  m_Component:
-  - 4: {fileID: 1843901399}
-  - 23: {fileID: 1843901404}
-  - 102: {fileID: 1843901403}
-  - 114: {fileID: 1843901402}
-  - 61: {fileID: 1843901401}
-  - 114: {fileID: 1843901400}
-  m_Layer: 0
-  m_Name: Text_Restart
-  m_TagString: Untagged
-  m_Icon: {fileID: -1376725286, guid: 0000000000000000d000000000000000, type: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1843901399
-Transform:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1843901398}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.72331238, y: -4.29571629, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 127880922}
---- !u!114 &1843901400
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1843901398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d5e51c92f8e444df1b6c07b9754f23f2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!61 &1843901401
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1843901398}
-  m_Enabled: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Size: {x: 2.66747665, y: .747972667}
-  m_Center: {x: 1.33380127, y: -.00442504883}
---- !u!114 &1843901402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1843901398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3379c64dce92d43c48603ed57fe9a82c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startDelaySecs: 6
-  removeOnReset: 0
-  removeOnLevelComplete: 1
-  showTextOnStart: 1
-  textToShowOnStart: Or Restart-->
---- !u!102 &1843901403
-TextMesh:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1843901398}
-  m_Text: 
-  m_OffsetZ: 0
-  m_CharacterSize: .200000003
-  m_LineSpacing: 1
-  m_Anchor: 3
-  m_Alignment: 0
-  m_TabSize: 4
-  m_FontSize: 30
-  m_FontStyle: 0
-  m_RichText: 1
-  m_Font: {fileID: 12800000, guid: e6e13fe438de1428ba8a14a4539cf74b, type: 3}
-  m_Color:
-    serializedVersion: 2
-    rgba: 4278254127
---- !u!23 &1843901404
-Renderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1843901398}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 2100000, guid: e6e13fe438de1428ba8a14a4539cf74b, type: 3}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortingLayerID: 0
 --- !u!1 &1847471022
 GameObject:
   m_ObjectHideFlags: 0
@@ -25089,8 +24977,8 @@ BoxCollider2D:
   m_Enabled: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_Size: {x: .349999994, y: .349999994}
-  m_Center: {x: 0, y: 0}
+  m_Size: {x: .349999994, y: .796728849}
+  m_Center: {x: -0, y: .121593475}
 --- !u!114 &2047766734
 MonoBehaviour:
   m_ObjectHideFlags: 0
