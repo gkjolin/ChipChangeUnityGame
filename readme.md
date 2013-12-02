@@ -2,6 +2,7 @@
 
 _created for github game-off-2013 by Travis Irby_
 
+##Play Flash Version: http://travisirby.github.io/game-off-2013/
 
 ![ScreenShot](/ReadmeImages/screen1.png)![ScreenShot](/ReadmeImages/screen2.png)
 
