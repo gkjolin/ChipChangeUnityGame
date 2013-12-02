@@ -37,7 +37,7 @@ public class Tracker_Spawn: MonoBehaviour {
 		// Get the text mesh of this gameobject so we can update the score
 		textEffect = GetComponent<Text_Typewriter>();
 		// Give unity a bit of time to setup (usually a good idea)
-		Invoke("Setup",2f);
+		Invoke("Setup",3f);
 	}
 	
 	void Setup()

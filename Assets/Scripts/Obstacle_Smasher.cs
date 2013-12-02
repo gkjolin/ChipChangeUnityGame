@@ -4,6 +4,7 @@ using System.Collections;
 public class Obstacle_Smasher : MonoBehaviour {
 
 	public int thisLevel;
+	public float smashTimeSecs = 1f;
 	public float smashDistance = 3f;				// How far down it will smash
 
 	Vector3 moveTweenVector3;
@@ -28,7 +29,7 @@ public class Obstacle_Smasher : MonoBehaviour {
 	{
 		if(_Manager.currentLevel == thisLevel)		// If we are on thisLevel, start the tween
 		{
-			LeanTween.move( gameObject, moveTweenVector3, 1f, new object[]{ "ease",LeanTweenType.easeOutElastic,"repeat",-1});
+			LeanTween.move( gameObject, moveTweenVector3, smashTimeSecs, new object[]{ "ease",LeanTweenType.easeOutElastic,"repeat",-1});
 		}
 		else
 		{

@@ -22,13 +22,13 @@ public class _Manager : MonoBehaviour {
 
 	void Start () 
 	{
-		if (Application.isEditor)						// if we are in unity we skip to levelToStart
-		{
+//		if (Application.isEditor)						// if we are in unity we skip to levelToStart
+//		{
 			currentLevel = levelToStart;			
 			currentChipsNeededCount = chipsNeededPerLevel [currentLevel];
 			totalSpawnChipCount = totalSpawnsPerLevel[currentLevel];
 			currentSpawnChipCount = totalSpawnChipCount;
-		}
+//		}
 
 		AudioSource[] aSources = GetComponents<AudioSource>();
 		audioBlip0 = aSources[0];
@@ -54,6 +54,22 @@ public class _Manager : MonoBehaviour {
 	{
 		Messenger.RemoveListener("reset", OnReset);			// Always make sure to unregister the event on disable
 		Messenger.RemoveListener("levelComplete", OnLevelComplete);			
+	}
+
+	public static void Mute()
+	{
+		audioBlip0.mute = true;
+		audioBlip1.mute = true;
+		audioBlip2.mute = true;
+		audioBlip3.mute = true;
+	}
+
+	public static void UnMute()
+	{
+		audioBlip0.mute = false;
+		audioBlip1.mute = false;
+		audioBlip2.mute = false;
+		audioBlip3.mute = false;
 	}
 
 	// This is my hack for beeps with different pitches because flash does not support AudioSource.pitch :(

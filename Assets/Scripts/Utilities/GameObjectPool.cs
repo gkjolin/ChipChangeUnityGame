@@ -54,6 +54,7 @@ public class GameObjectPool : MonoBehaviour
 	{
 		yield return new WaitForSeconds(0.1f);
 		ReleaseInstance(t);
+		if(Application.isEditor) print("released");
 	}
 	
 	public Transform GetInstance(Vector3 position)
