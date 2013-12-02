@@ -45,7 +45,6 @@ public class _Manager : MonoBehaviour {
 	{
 		currentLevel = PlayerPrefs.GetInt("Current Level");			// Load the saved level to start at
 		if (currentLevel == 0) currentLevel ++;						// If the playerpref returns 0, nothing is saved, go to first level
-		if (currentLevel > 6) currentLevel = 6; 					//TEMPPPPPP BUG FIX
 	}
 	
 	void OnEnable()			
@@ -123,7 +122,6 @@ public class _Manager : MonoBehaviour {
 		else
 		{
 			currentLevel ++;
-			if (currentLevel < 7) PlayerPrefs.SetInt("Current Level", currentLevel);			// TEMP LEVEL LIMIT BECAUSE OF SAVE BUG OTHERWISE
 		}
 		// set the chipsNeeded and totalSpawnChipCount for the next level
 		currentChipsNeededCount = chipsNeededPerLevel [currentLevel];
