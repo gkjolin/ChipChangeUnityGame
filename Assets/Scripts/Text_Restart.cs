@@ -9,7 +9,6 @@ public class Text_Restart : MonoBehaviour {
 
 	void Start()
 	{
-		print(PlayerPrefs.GetInt("Current Level"));
 		if (PlayerPrefs.GetInt("Current Level") <= 1)		// If the player has previously gotten to level 2 we will show this
 		{
 			gameObject.SetActive (false);
