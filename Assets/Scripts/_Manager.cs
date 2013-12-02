@@ -13,7 +13,6 @@ public class _Manager : MonoBehaviour {
 	public static AudioSource audioBlip1;			
 	public static AudioSource audioBlip2;			
 	public static AudioSource audioBlip3;	
-	public static int chipsNeeded;						// How many chips are required to complete the level
 	public static int currentChipsNeededCount;			// How many remaining chips are required to complete the level
 	public static int totalSpawnChipCount;				// How many chips are really allowed to spawn in this level
 	public static int currentSpawnChipCount;			// How many chips are left to spawn in this level
@@ -23,17 +22,25 @@ public class _Manager : MonoBehaviour {
 
 	void Start () 
 	{
-		currentLevel = levelToStart;
-		chipsNeeded = chipsNeededPerLevel [currentLevel];
-		currentChipsNeededCount = chipsNeeded;
-		totalSpawnChipCount = totalSpawnsPerLevel[currentLevel];
-		currentSpawnChipCount = totalSpawnChipCount;
+		if (Application.isEditor)						// if we are in unity we skip to levelToStart
+		{
+			currentLevel = levelToStart;			
+			currentChipsNeededCount = chipsNeededPerLevel [currentLevel];
+			totalSpawnChipCount = totalSpawnsPerLevel[currentLevel];
+			currentSpawnChipCount = totalSpawnChipCount;
+		}
 
 		AudioSource[] aSources = GetComponents<AudioSource>();
 		audioBlip0 = aSources[0];
 		audioBlip1 = aSources[1];
 		audioBlip2 = aSources[2];
 		audioBlip3 = aSources[3];
+	}
+
+	public static void LoadSavedLevel ()
+	{
+		currentLevel = PlayerPrefs.GetInt("Current Level");			// Load the saved level to start at
+		if (currentLevel == 0) currentLevel ++;						// If the playerpref returns 0, nothing is saved, go to first level
 	}
 	
 	void OnEnable()			
@@ -52,6 +59,8 @@ public class _Manager : MonoBehaviour {
 	public static void PlayBlip()				// Text_Typewriter calls this during typing effect
 	{
 		int r = Random.Range (0,5);
+		float vol = Random.Range (0.0f, 90.0f);
+
 		audioBlip0.Stop();
 		audioBlip1.Stop();
 		audioBlip2.Stop();
@@ -59,18 +68,22 @@ public class _Manager : MonoBehaviour {
 
 		if (r == 0)
 		{
+			audioBlip0.volume = vol;
 			audioBlip0.Play();
 		}
 		if (r == 1)
 		{
+			audioBlip1.volume = vol;
 			audioBlip1.Play();
 		}
 		if (r == 2)
 		{
+			audioBlip2.volume = vol;
 			audioBlip2.Play();
 		}
 		if (r == 3)
 		{
+			audioBlip3.volume = vol;
 			audioBlip3.Play();
 		}
 	}
@@ -82,12 +95,18 @@ public class _Manager : MonoBehaviour {
 
 	void OnLevelComplete()
 	{
-		currentLevel ++;
-
+		if (currentLevel == 0)						// If we are on the menu we check if there is a save
+		{
+			LoadSavedLevel();
+		}
+		else
+		{
+			currentLevel ++;
+			PlayerPrefs.SetInt("Current Level", currentLevel);
+		}
 		// set the chipsNeeded and totalSpawnChipCount for the next level
-		chipsNeeded = chipsNeededPerLevel [currentLevel];
+		currentChipsNeededCount = chipsNeededPerLevel [currentLevel];
 		totalSpawnChipCount = totalSpawnsPerLevel [currentLevel];
 		currentSpawnChipCount = totalSpawnChipCount;
-
 	}
 }

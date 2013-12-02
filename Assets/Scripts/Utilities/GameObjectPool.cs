@@ -54,8 +54,6 @@ public class GameObjectPool : MonoBehaviour
 	{
 		yield return new WaitForSeconds(0.1f);
 		ReleaseInstance(t);
-		print("release");
-
 	}
 	
 	public Transform GetInstance(Vector3 position)
