@@ -22,13 +22,13 @@ public class _Manager : MonoBehaviour {
 
 	void Start () 
 	{
-//		if (Application.isEditor)						// if we are in unity we skip to levelToStart
-//		{
+		if (Application.isEditor)						// if we are in unity we skip to levelToStart
+		{
 			currentLevel = levelToStart;			
 			currentChipsNeededCount = chipsNeededPerLevel [currentLevel];
 			totalSpawnChipCount = totalSpawnsPerLevel[currentLevel];
 			currentSpawnChipCount = totalSpawnChipCount;
-//		}
+		}
 
 		AudioSource[] aSources = GetComponents<AudioSource>();
 		audioBlip0 = aSources[0];
