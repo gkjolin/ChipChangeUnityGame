@@ -40,6 +40,7 @@ public class Tracker_Finish : MonoBehaviour {
 		if (col.gameObject.CompareTag("Chip"))
 		{
 			isActivated = true;
+			_Manager.audioFinish.Play();
 			Invoke("ResetIsActivated", 0.1f);
 			// Tell chip to despawn
 			col.gameObject.SendMessage("FinishedDespawn",SendMessageOptions.DontRequireReceiver);

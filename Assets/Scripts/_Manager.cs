@@ -13,6 +13,8 @@ public class _Manager : MonoBehaviour {
 	public static AudioSource audioBlip1;			
 	public static AudioSource audioBlip2;			
 	public static AudioSource audioBlip3;	
+	public static AudioSource audioFinish;	
+	public static AudioSource audioSpring;	
 	public static int currentChipsNeededCount;			// How many remaining chips are required to complete the level
 	public static int totalSpawnChipCount;				// How many chips are really allowed to spawn in this level
 	public static int currentSpawnChipCount;			// How many chips are left to spawn in this level
@@ -35,6 +37,8 @@ public class _Manager : MonoBehaviour {
 		audioBlip1 = aSources[1];
 		audioBlip2 = aSources[2];
 		audioBlip3 = aSources[3];
+		audioFinish = aSources[4];
+		audioSpring = aSources[5];
 	}
 
 	public static void LoadSavedLevel ()

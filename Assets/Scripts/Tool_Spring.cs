@@ -23,7 +23,7 @@ public class Tool_Spring : MonoBehaviour {
 		{
 			isActivated = true;
 			Invoke("ResetIsActivated", 0.25f);
-
+			_Manager.audioSpring.Play();
 			colTrans = col.transform;
 			// This objs parent has the rotation info. Set the chip's velocity to match the angle of this spring * force
 			colTrans.rigidbody2D.angularVelocity = 0f;

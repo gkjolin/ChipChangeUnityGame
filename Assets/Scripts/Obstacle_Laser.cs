@@ -34,7 +34,8 @@ public class Obstacle_Laser : MonoBehaviour {
 		if (_Manager.currentLevel == thisLevel)
 		{
 			isActivated = true;
-			DisableLaserRepeat();
+			if (isFlashing) DisableLaserRepeat();
+			else EnableLaser();
 		}
 
 		else 
